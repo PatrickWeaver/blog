@@ -12,13 +12,6 @@ app.use(express.static('public'));
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 
-
-/*
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + '/views/index.html');
-});
-*/
-
 app.get('/', function(req, res) {
 
     res.locals = {
@@ -28,9 +21,6 @@ app.get('/', function(req, res) {
 
     res.render("index");
 });
-
-
-
 
 
 // listen for requests :)
