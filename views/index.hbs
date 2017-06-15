@@ -1,3 +1,9 @@
 <p>
   {{ list }}
 </p>
+
+<ul id="posts">
+  {{#each posts}}
+    <li>{{> postPreview}}</li>
+  {{/each}}
+</ul>
