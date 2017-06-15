@@ -5,6 +5,8 @@ var express = require("express");
 var app = express();
 var hbs = require("hbs");
 
+var port = 8106;
+
 var posts = [
   {
     post_title: "First Post",
@@ -37,8 +39,11 @@ app.get('/', function(req, res) {
     res.render("index");
 });
 
+if (process.env.PORT){
+  port = process.env.PORT;
+}
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(port, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
