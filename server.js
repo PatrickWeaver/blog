@@ -44,24 +44,19 @@ app.get('/', function(req, res) {
     res.render("index");
 });
 
-if (process.env.ENV === "DEV"){
+if (process.env.ENV == "DEV"){
   console.log("ENV IS: " + process.env.ENV);
 } else {
   console.log("ENV IS NOT DEV");
   if (process.env.PORT){
-    console.log(process.env.PORT);
+    console.log("env port: " + process.env.PORT);
     //port = process.env.PORT;
   }
 }
 
 // listen for requests :)
 
-/*
+
 var listener = app.listen(port, function () {
   console.log('Your app is listening on port ' + listener.address().port + " or " + port);
 });
-
-*/
-
-app.listen(port);
-console.log('Running on http://localhost:' + port);
