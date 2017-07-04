@@ -1,11 +1,8 @@
-<p>
-  {{ list }}
-</p>
-
 <ul id="posts">
   {{#each posts}}
     <li class="post">
-        {{> postPreview}}
+        <h2>{{ this.post_title }}</h2>
+        <p>{{ this.post_body }}</p>
     </li>
   {{/each}}
 </ul>
