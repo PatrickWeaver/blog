@@ -14,57 +14,71 @@ var options = {
   path: "/posts"
 };
 
-var api_data = {};
 
-http.get(options, function(res){
-  res.on("data", function(data){
-    api_data = JSON.parse(data);
-    console.log(new Date());
-    runServer();
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+
+// https://www.npmjs.com/package/hbs
+app.set("view engine", "hbs");
+app.set("views", __dirname + "/views");
+hbs.registerPartials(__dirname + '/views/partials');
+
+app.get('/', function(req, res) {
+
+  var api_posts = {};
+
+  http.get(options, function(res){
+    res.on("data", function(data){
+      api_posts = JSON.parse(data);
+      sendResponse(api_posts);
+
+    });
+  }).on("error", function(error){
+    console.log("Error: " + error);
   });
-}).on("error", function(error){
-  console.log("Error: " + error);
+
+  function sendResponse(posts) {
+
+    var monthNames = [
+      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ];
+
+    for (post in posts) {
+      var rawDate = new Date(posts[post].post_date);
+      var formattedDate = "";
+      formattedDate += monthNames[rawDate.getMonth()] + " " + rawDate.getDate() + ", " + rawDate.getFullYear();
+      posts[post].post_formatted_date = formattedDate;
+    }
+
+    console.log("POSTS: ");
+    for (var i in posts){
+      console.log(i + ": " + posts[i]);
+      for (var j in posts[i]) {
+        console.log(i + "-" + j + ": " + posts[i][j])
+      }
+    }
+
+    res.locals = {
+        title: "",
+        posts: posts
+    }
+    res.render("index");
+  }
 });
 
-function runServer(){
-
-  for (i in api_data){
-    console.log(i + ": " + api_data[i]);
+if (process.env.ENV == "DEV"){
+  console.log("ENV IS: " + process.env.ENV);
+} else {
+  console.log("ENV IS NOT DEV");
+  if (process.env.PORT){
+    console.log("env port: " + process.env.PORT);
+    //port = process.env.PORT;
   }
-  console.log(new Date());
-
-  // http://expressjs.com/en/starter/static-files.html
-  app.use(express.static('public'));
-
-  // https://www.npmjs.com/package/hbs
-  app.set("view engine", "hbs");
-  app.set("views", __dirname + "/views");
-  hbs.registerPartials(__dirname + '/views/partials');
-
-  app.get('/', function(req, res) {
-
-      res.locals = {
-          title: "",
-          posts: api_data
-      }
-
-      res.render("index");
-  });
-
-  if (process.env.ENV == "DEV"){
-    console.log("ENV IS: " + process.env.ENV);
-  } else {
-    console.log("ENV IS NOT DEV");
-    if (process.env.PORT){
-      console.log("env port: " + process.env.PORT);
-      //port = process.env.PORT;
-    }
-  }
-
-  // listen for requests :)
-
-
-  var listener = app.listen(port, function () {
-    console.log('Your app is listening on port ' + listener.address().port + " or " + port);
-  });
 }
+
+// listen for requests :)
+
+
+var listener = app.listen(port, function () {
+  console.log('Your app is listening on port ' + listener.address().port + " or " + port);
+});

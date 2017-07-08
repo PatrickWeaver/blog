@@ -4,10 +4,12 @@
 
 body {
   font-family: arial, sans-serif;
-  margin: 0px;
+}
+
+ul#posts {
+  list-style: none;
 }
 
 post-preview {
   margin: 3em, 2%, 1em;
 }
-
