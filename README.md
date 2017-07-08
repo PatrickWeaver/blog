@@ -1,6 +1,6 @@
 PW Blog
 ==
-[![GitHub version](https://badge.fury.io/gh/patrickweaver%2Fblog.svg)](https://badge.fury.io/gh/patrickweaver%2Fblog)
+![0.0.2](https://img.shields.io/badge/version-0.0.2-green.svg?style=flat-square)
 
 #### To build Docker container:
 
