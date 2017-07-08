@@ -1,5 +1,6 @@
 PW Blog
 ==
+[![GitHub version](https://badge.fury.io/gh/patrickweaver%2Fblog.svg)](https://badge.fury.io/gh/patrickweaver%2Fblog)
 
 #### To build Docker container:
 
