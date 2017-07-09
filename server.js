@@ -10,8 +10,8 @@ var port = 8106;
 
 var options = {
   host: process.env.API_URL,
-  port: 80,
-  path: "/posts"
+  port: process.env.API_PORT,
+  path: "/blog/posts"
 };
 
 
@@ -23,7 +23,7 @@ app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 hbs.registerPartials(__dirname + '/views/partials');
 
-app.get('/', function(req, res) {
+app.get('/', function(request, response) {
 
   var api_posts = {};
 
@@ -31,6 +31,7 @@ app.get('/', function(req, res) {
     res.on("data", function(data){
       api_posts = JSON.parse(data);
       sendResponse(api_posts);
+
 
     });
   }).on("error", function(error){
@@ -50,19 +51,11 @@ app.get('/', function(req, res) {
       posts[post].post_formatted_date = formattedDate;
     }
 
-    console.log("POSTS: ");
-    for (var i in posts){
-      console.log(i + ": " + posts[i]);
-      for (var j in posts[i]) {
-        console.log(i + "-" + j + ": " + posts[i][j])
-      }
-    }
-
-    res.locals = {
+    response.locals = {
         title: "",
         posts: posts
     }
-    res.render("index");
+    response.render("index");
   }
 });
 
