@@ -1,6 +1,6 @@
 PW Blog
 ==
-![version: 0.0.3](https://img.shields.io/badge/version-0.0.3-green.svg?style=flat-square)
+![version: 0.0.4](https://img.shields.io/badge/version-0.0.4-green.svg?style=flat-square)
 
 #### To build Docker container:
 
@@ -12,4 +12,4 @@ PW Blog
 
 #### To run docker container in production:
 
-`docker run --env API_URL=[API URL] API_PORT=80 --env ENV=PRODUCTION -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
+`docker run --env API_URL=[API URL] --env API_PORT=80 --env ENV=PRODUCTION -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
