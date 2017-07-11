@@ -14,6 +14,23 @@ var options = {
   path: "/blog/posts"
 };
 
+var apiUrl = options.host + ":" + options.port + options.path;
+
+var monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -23,41 +40,43 @@ app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 hbs.registerPartials(__dirname + '/views/partials');
 
-app.get('/', function(request, response) {
+app.get('/', function(req, res) {
 
   var api_posts = {};
 
-  http.get(options, function(res){
-    res.on("data", function(data){
+  http.get(options, function(apiResponse){
+    apiResponse.on("data", function(data){
       api_posts = JSON.parse(data);
       sendResponse(api_posts);
-
-
     });
   }).on("error", function(error){
     console.log("Error: " + error);
   });
 
   function sendResponse(posts) {
-
-    var monthNames = [
-      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-    ];
-
     for (post in posts) {
       var rawDate = new Date(posts[post].post_date);
       var formattedDate = "";
       formattedDate += monthNames[rawDate.getMonth()] + " " + rawDate.getDate() + ", " + rawDate.getFullYear();
       posts[post].post_formatted_date = formattedDate;
     }
-
-    response.locals = {
+    res.locals = {
         title: "",
         posts: posts
     }
-    response.render("index");
+    res.render("index");
   }
 });
+
+
+app.get("/new/", function(req, res) {
+
+  res.locals = {
+    apiUrl: apiUrl
+  }
+
+  res.render("new");
+})
 
 if (process.env.ENV == "DEV"){
   console.log("ENV IS: " + process.env.ENV);
@@ -70,8 +89,6 @@ if (process.env.ENV == "DEV"){
 }
 
 // listen for requests :)
-
-
 var listener = app.listen(port, function () {
   console.log('Your app is listening on port ' + listener.address().port + " or " + port);
 });

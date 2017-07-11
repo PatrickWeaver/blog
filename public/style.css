@@ -6,10 +6,41 @@ body {
   font-family: arial, sans-serif;
 }
 
+#hide {
+  display: none;
+  font-size: 0;
+  height: 0;
+  width: 0;
+}
+
 ul#posts {
   list-style: none;
 }
 
 post-preview {
   margin: 3em, 2%, 1em;
+}
+
+
+
+
+/* New Post */
+
+#new-post label, #new-post input, #new-post textarea, #new-post button {
+  display: block;
+  margin: .5em 0;
+}
+
+#new-post label, #new-post input {
+  font-size: 200%;
+}
+
+#new-post textarea, #new-post button {
+  font-size: 150%;
+  line-height: 150%;
+}
+
+#new-post textarea {
+  width: 100%;
+  padding: .5em;
 }
