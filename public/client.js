@@ -1,16 +1,15 @@
 $('document').ready(function(){
 
-  console.log("TESTETESTSETSTT");
-
-  $( "#new-post-form .submit").click(function() {
-    postAPI("/blog/posts/new/");
+  $( "#new-post-form > .submit").click(function(event) {
+    event.preventDefault();
+    postAPI("new/");
   })
 
 
   function postAPI(path) {
-    console.log("TEST");
     // API url is passed from environment variable to front end via local
     var apiUrl = $( "#apiUrl" ).html();
+    //var apiUrl = "http://localhost:8000/blog/posts/"
     // Grab post data from the form:
     var post_title = $( "#new-post-title" ).val();
     var post_date = $( "#new-post-date" ).val();
@@ -27,14 +26,16 @@ $('document').ready(function(){
       data: apiData,
       success: function(data) {
         console.log(data);
-      },
-      error: function(err) {
-        console.log("Error: " + err);
-        for (e in err){
-          console.log(e + ": " + err[e]);
+        for (d in data) {
+          console.log(d + ": " + data[d]);
+          for (e in data[d]) {
+            console.log(e + ": " + data[d][e]);
+          }
         }
       },
-      dataType: JSON
+      error: function(xhr, status, err) {
+        console.log("Error: " + err);
+      }
     });
   }
 

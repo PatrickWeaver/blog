@@ -11,10 +11,12 @@ var port = 8106;
 var options = {
   host: process.env.API_URL,
   port: process.env.API_PORT,
-  path: "/blog/posts"
+  path: "/blog/posts/"
 };
 
-var apiUrl = options.host + ":" + options.port + options.path;
+var clientUrl = process.env.CLIENT_API;
+
+var apiUrl = "http://" + clientUrl + ":" + options.port + options.path;
 
 var monthNames = [
   "January",
