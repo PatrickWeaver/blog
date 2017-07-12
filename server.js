@@ -49,13 +49,15 @@ app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 hbs.registerPartials(__dirname + '/views/partials');
 
+// Handlebars helpers:
+var forLoop = require("./views/helpers/pageLoop")(hbs);
+
 app.get('/', function(req, res) {
   var apiData = {
     page: 1
   }
   if (req.query.page){
-    console.log("PAGE: " + req.query.page)
-    if (parseInt(req.query.page) < 999999 && parseInt(req.query.page) > 0) {
+    if (parseInt(req.query.page) > 0) {
   }
     apiData.page = req.query.page;
   }
@@ -69,15 +71,15 @@ app.get('/', function(req, res) {
     },
     function(error, response, body){
       if(response.statusCode < 400){
-        api_posts = JSON.parse(body);
-        sendResponse(api_posts);
+        sendResponse(JSON.parse(body));
       } else {
         sendResponse({"Error": response.statusCode + ": " + body})
       }
     }
   );
 
-  function sendResponse(posts) {
+  function sendResponse(post_response) {
+    var posts = post_response.posts_list
     for (post in posts) {
       var rawDate = new Date(posts[post].post_date);
       var formattedDate = "";
@@ -85,6 +87,8 @@ app.get('/', function(req, res) {
       posts[post].post_formatted_date = formattedDate;
     }
     res.locals = {
+        page: post_response.page,
+        pages: Math.ceil(parseInt(post_response.total_posts) / 5),
         title: "",
         posts: posts
     }

@@ -4,6 +4,11 @@
 
 body {
   font-family: arial, sans-serif;
+  margin: 1em 4%;
+}
+
+ul {
+  padding: 0;
 }
 
 #hide {
@@ -19,6 +24,16 @@ ul#posts {
 
 post-preview {
   margin: 3em, 2%, 1em;
+}
+
+/* Pagination */
+
+ul#pagination {
+  list-style: none;
+}
+
+ul#pagination > li.page-number {
+  display: inline;
 }
 
 
