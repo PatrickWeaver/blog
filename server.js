@@ -4,19 +4,23 @@
 var express = require("express");
 var app = express();
 var hbs = require("hbs");
-var http = require('http');
+var http = require("http");
+var request = require("request");
+// 🚸 Maybe don't need this, if so remove from package.json
+//var bodyParser = require('body-parser')
 
 var port = 8106;
 
-var options = {
+var apiOptions = {
   host: process.env.API_URL,
   port: process.env.API_PORT,
   path: "/blog/posts/"
 };
 
-var clientUrl = process.env.CLIENT_API;
+var apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
 
-var apiUrl = "http://" + clientUrl + ":" + options.port + options.path;
+var clientUrl = process.env.CLIENT_API;
+var apiClientUrl = "http://" + clientUrl + ":" + apiOptions.port + apiOptions.path;
 
 var monthNames = [
   "January",
@@ -37,23 +41,41 @@ var monthNames = [
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+// https://www.npmjs.com/package/body-parser
+//app.use(bodyParser.urlencoded({ extended: false }))
+
 // https://www.npmjs.com/package/hbs
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 hbs.registerPartials(__dirname + '/views/partials');
 
 app.get('/', function(req, res) {
+  var apiData = {
+    page: 1
+  }
+  if (req.query.page){
+    console.log("PAGE: " + req.query.page)
+    if (parseInt(req.query.page) < 999999 && parseInt(req.query.page) > 0) {
+  }
+    apiData.page = req.query.page;
+  }
 
   var api_posts = {};
 
-  http.get(options, function(apiResponse){
-    apiResponse.on("data", function(data){
-      api_posts = JSON.parse(data);
-      sendResponse(api_posts);
-    });
-  }).on("error", function(error){
-    console.log("Error: " + error);
-  });
+  request(
+    {
+      url: apiUrl,
+      qs: apiData
+    },
+    function(error, response, body){
+      if(response.statusCode < 400){
+        api_posts = JSON.parse(body);
+        sendResponse(api_posts);
+      } else {
+        sendResponse({"Error": response.statusCode + ": " + body})
+      }
+    }
+  );
 
   function sendResponse(posts) {
     for (post in posts) {
@@ -74,7 +96,7 @@ app.get('/', function(req, res) {
 app.get("/new/", function(req, res) {
 
   res.locals = {
-    apiUrl: apiUrl
+    apiUrl: apiClientUrl
   }
 
   res.render("new");
