@@ -1,34 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Patrick Weaver: Blog</title>
-    <meta name="description" content="">
-    <link id="favicon" rel="icon" href=" " type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/style.css">
+    {{> head }}
   </head>
   <body>
-    <h1>Patrick Weaver: Blog</h1>
+    <h1 id="site-header"><a href="/">Patrick Weaver: Blog</a></h1>
+    {{> pagination }}
+
     <hr>
     {{{body}}}
     <hr>
-    <ul id="pagination">
-      <li class="page-number">Page:</li>
-      {{#each pagination}}
-        <li class="page-number">
-          {{#if this.isCurrentPage}}
-            {{ this.pageNumber }}
-          {{else}}
-            <a href="/?page={{ this.pageNumber }}">{{ this.pageNumber }}</a>
-          {{/if}}
-      {{/each}}
-    </ul>
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-            crossorigin="anonymous"></script>
-    <script src="/client.js"></script>
+    {{> pagination }}
+    {{> script }}
     <div id="hide">
       <span id="apiUrl">{{ apiUrl }}</span>
     </div>

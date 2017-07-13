@@ -18,6 +18,16 @@ ul {
   width: 0;
 }
 
+/* Layout */
+
+h1#site-header > a, h1#site-header > a:hover, h1#site-header > a:visited, h1#site-header > a:active {
+  text-decoration: none;
+  color: black;
+}
+
+
+/* Posts */
+
 ul#posts {
   list-style: none;
 }
