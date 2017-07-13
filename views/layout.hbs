@@ -16,9 +16,14 @@
     <hr>
     <ul id="pagination">
       <li class="page-number">Page:</li>
-      {{#forLoop 1 pages 1}}
-        <li class="page-number"><a href="/?page={{ this }}">{{ this }}</a></li>
-      {{/forLoop}}
+      {{#each pagination}}
+        <li class="page-number">
+          {{#if this.isCurrentPage}}
+            {{ this.pageNumber }}
+          {{else}}
+            <a href="/?page={{ this.pageNumber }}">{{ this.pageNumber }}</a>
+          {{/if}}
+      {{/each}}
     </ul>
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="

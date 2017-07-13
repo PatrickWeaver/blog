@@ -49,9 +49,6 @@ app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 hbs.registerPartials(__dirname + '/views/partials');
 
-// Handlebars helpers:
-var forLoop = require("./views/helpers/pageLoop")(hbs);
-
 app.get('/', function(req, res) {
   var apiData = {
     page: 1
@@ -86,9 +83,20 @@ app.get('/', function(req, res) {
       formattedDate += monthNames[rawDate.getMonth()] + " " + rawDate.getDate() + ", " + rawDate.getFullYear();
       posts[post].post_formatted_date = formattedDate;
     }
+    var pages = Math.ceil(parseInt(post_response.total_posts) / 5)
+    var pagination = {};
+    for (var i = 1; i <= pages; i++) {
+      pagination[i.toString()] = {
+        pageNumber: i.toString()
+      }
+      if (i === parseInt(post_response.page)){
+        pagination[i.toString()]["isCurrentPage"] = true;
+      } else {
+        pagination[i.toString()]["isCurrentPage"] = false;
+      }
+    }
     res.locals = {
-        page: post_response.page,
-        pages: Math.ceil(parseInt(post_response.total_posts) / 5),
+        pagination: pagination,
         title: "",
         posts: posts
     }
