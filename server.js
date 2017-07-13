@@ -86,13 +86,13 @@ app.get('/', function(req, res) {
     var pages = Math.ceil(parseInt(post_response.total_posts) / 5)
     var pagination = {};
     for (var i = 1; i <= pages; i++) {
-      pagination[i.toString()] = {
-        pageNumber: i.toString()
+      pagination[i] = {
+        pageNumber: i
       }
       if (i === parseInt(post_response.page)){
-        pagination[i.toString()]["isCurrentPage"] = true;
+        pagination[i]["isCurrentPage"] = true;
       } else {
-        pagination[i.toString()]["isCurrentPage"] = false;
+        pagination[i]["isCurrentPage"] = false;
       }
     }
     res.locals = {
