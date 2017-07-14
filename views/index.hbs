@@ -3,7 +3,7 @@
     <li class="post">
         <h2 class="post-title">{{ this.post_title }}</h2>
         <h5 class="date">{{ this.post_formatted_date }}</h5>
-        <div class="post-body">{{{ this.post_body_marked }}}</div>
+        <div class="post-body">{{ this.post_preview }}</div>
     </li>
     {{#unless @last}}
       <hr style="border-top: 2px dotted {{ @root.hrBorderColors.a }}; border-bottom: 2px dotted {{ @root.hrBorderColors.b }};">
