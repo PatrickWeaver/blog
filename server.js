@@ -1,52 +1,36 @@
 // server.js
 
 // init project
-var express = require("express");
-var app = express();
-var hbs = require("hbs");
-var http = require("http");
-var request = require("request");
-// 🚸 Maybe don't need this, if so remove from package.json
-//var bodyParser = require('body-parser')
+const express = require("express");
+const app = express();
+const hbs = require("hbs");
+const http = require("http");
+const request = require("request");
+const hexcolors = require("./helpers/hexcolors");
+const constants = require("./helpers/constants");
+const monthNames = constants.monthNames;
 
-var port = 8106;
+const port = 8106;
 
-var apiOptions = {
+const apiOptions = {
   host: process.env.API_URL,
   port: process.env.API_PORT,
   path: "/blog/posts/"
 };
 
-var apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
+const apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
 
-var clientUrl = process.env.CLIENT_API;
-var apiClientUrl = "http://" + clientUrl + ":" + apiOptions.port + apiOptions.path;
-
-var monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-];
+const clientUrl = process.env.CLIENT_API;
+const apiClientUrl = "http://" + clientUrl + ":" + apiOptions.port + apiOptions.path;
 
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-// https://www.npmjs.com/package/body-parser
-//app.use(bodyParser.urlencoded({ extended: false }))
-
 // https://www.npmjs.com/package/hbs
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
+// Handlebars Partials:
 hbs.registerPartials(__dirname + '/views/partials');
 
 app.get('/', function(req, res) {
@@ -60,6 +44,7 @@ app.get('/', function(req, res) {
   }
 
   var api_posts = {};
+  var hrBorderColors = hexcolors.hrBorderColor();
 
   request(
     {
@@ -98,7 +83,8 @@ app.get('/', function(req, res) {
     res.locals = {
         pagination: pagination,
         title: "",
-        posts: posts
+        posts: posts,
+        hrBorderColors: hrBorderColors
     }
     res.render("index");
   }
