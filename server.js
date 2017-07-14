@@ -6,6 +6,19 @@ const app = express();
 const hbs = require("hbs");
 const http = require("http");
 const request = require("request");
+var marked = require("marked");
+https://www.npmjs.com/package/marked
+// 🚸 Look into marked options
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+});
 const hexcolors = require("./helpers/hexcolors");
 const constants = require("./helpers/constants");
 const monthNames = constants.monthNames;
@@ -67,6 +80,7 @@ app.get('/', function(req, res) {
       var formattedDate = "";
       formattedDate += monthNames[rawDate.getMonth()] + " " + rawDate.getDate() + ", " + rawDate.getFullYear();
       posts[post].post_formatted_date = formattedDate;
+      posts[post].post_body_marked = marked(posts[post].post_body);
     }
     var pages = Math.ceil(parseInt(post_response.total_posts) / 5)
     var pagination = {};

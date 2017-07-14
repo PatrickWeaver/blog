@@ -3,7 +3,10 @@
     <li class="post">
         <h2 class="post-title">{{ this.post_title }}</h2>
         <h5 class="date">{{ this.post_formatted_date }}</h5>
-        <p>{{ this.post_body }}</p>
+        <div class="post-body">{{{ this.post_body_marked }}}</div>
     </li>
+    {{#unless @last}}
+      <hr style="border-top: 2px dotted {{ @root.hrBorderColors.a }}; border-bottom: 2px dotted {{ @root.hrBorderColors.b }};">
+    {{/unless}}
   {{/each}}
 </ul>

@@ -8,8 +8,9 @@ body {
 }
 
 hr {
-  border: 3px;
+  border: 0;
   margin: 0;
+  height: 6px;
 }
 
 ul {
@@ -30,15 +31,23 @@ h1#site-header > a, h1#site-header > a:hover, h1#site-header > a:visited, h1#sit
   color: black;
 }
 
+h5.date {
+  margin-bottom: 0;
+}
+
+div.post-body {
+  margin: .5em 0 2em;
+}
+
+div.post-body > p {
+  margin: 0 0 1em;
+}
+
 
 /* Posts */
 
 ul#posts {
   list-style: none;
-}
-
-post-preview {
-  margin: 3em, 2%, 1em;
 }
 
 /* Pagination */
