@@ -28,7 +28,7 @@ const port = 8106;
 const apiOptions = {
   host: process.env.API_URL,
   port: process.env.API_PORT,
-  path: "/blog/posts/"
+  path: "/blog"
 };
 
 const apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
@@ -46,11 +46,10 @@ app.set("views", __dirname + "/views");
 // Handlebars Partials:
 hbs.registerPartials(__dirname + '/views/partials');
 
-function apiRequest(res, query) {
-
+function apiRequest(res, subpath, query) {
   request(
     {
-      url: apiUrl,
+      url: apiUrl + subpath,
       qs: query
     },
     function(error, response, body){
@@ -61,9 +60,10 @@ function apiRequest(res, query) {
         if (apiResponse.posts_list.length > 1){
           sendIndexResponse(apiResponse);
         } else {
-          // 🚸 Once API endpoint is set up, render post data from here.
+          // 🚸 Currently sending 1 post on idex page, change this to post page
+          sendIndexResponse(apiResponse);
           console.log(apiResponse);
-          error = true;
+          //error = true;
         }
       } else {
         error = true;
@@ -123,8 +123,10 @@ app.get('/', function(req, res) {
   }
     query.page = req.query.page;
   }
-
-  apiRequest(res, query);
+  for (var i in query) {
+    console.log(i + ": " + query[i]);
+  }
+  apiRequest(res, "/posts/", query);
 });
 
 app.get("/post/", function(req, res) {
@@ -134,7 +136,7 @@ app.get("/post/", function(req, res) {
     query.title = req.query.title;
   }
 
-  apiRequest(res, query);
+  apiRequest(res, "/post", query);
 
 });
 
