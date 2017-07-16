@@ -1,7 +1,7 @@
 <ul id="posts">
   {{#each posts}}
     <li class="post">
-        <h2 class="post-title">{{ this.post_title }}</h2>
+        <h2 class="post-title"><a href="/post?title={{ this.post_title }}">{{ this.post_title }}</a></h2>
         <h5 class="date">{{ this.post_formatted_date }}</h5>
         <div class="post-body">{{ this.post_preview }}</div>
     </li>

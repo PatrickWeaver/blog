@@ -26,6 +26,7 @@ $('document').ready(function(){
       data: apiData,
       success: function(data) {
         console.log(data);
+        alert("Posted!");
         for (d in data) {
           console.log(d + ": " + data[d]);
           for (e in data[d]) {

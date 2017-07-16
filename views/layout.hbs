@@ -5,12 +5,16 @@
   </head>
   <body>
     <h1 id="site-header"><a href="/">Patrick Weaver: Blog</a></h1>
-    {{> pagination }}
+    {{#if index}}
+      {{> pagination }}
+    {{/if }}
 
     <hr style="border-top: 2px solid {{ hrBorderColors.a }}; border-bottom: 2px solid {{ hrBorderColors.b }};">
     {{{body}}}
     <hr style="border-top: 2px solid {{ hrBorderColors.a }}; border-bottom: 2px solid {{ hrBorderColors.b }};">
-    {{> pagination }}
+    {{#if index}}
+      {{> pagination }}
+    {{/if }}
     {{> script }}
     <div id="hide">
       <span id="apiUrl">{{ apiUrl }}</span>

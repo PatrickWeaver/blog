@@ -46,34 +46,39 @@ app.set("views", __dirname + "/views");
 // Handlebars Partials:
 hbs.registerPartials(__dirname + '/views/partials');
 
-app.get('/', function(req, res) {
-  var apiData = {
-    page: 1
-  }
-  if (req.query.page){
-    if (parseInt(req.query.page) > 0) {
-  }
-    apiData.page = req.query.page;
-  }
-
-  var api_posts = {};
-  var hrBorderColors = hexcolors.hrBorderColor();
+function apiRequest(res, query) {
 
   request(
     {
       url: apiUrl,
-      qs: apiData
+      qs: query
     },
     function(error, response, body){
+      var error = false;
       if(response.statusCode < 400){
-        sendResponse(JSON.parse(body));
+        var apiResponse = JSON.parse(body);
+        // 🚸 Should probably add something that indicates response type in API.
+        if (apiResponse.posts_list.length > 1){
+          sendIndexResponse(apiResponse);
+        } else {
+          // 🚸 Once API endpoint is set up, render post data from here.
+          console.log(apiResponse);
+          error = true;
+        }
       } else {
-        sendResponse({"Error": response.statusCode + ": " + body})
+        error = true;
+      }
+      if (error){
+        sendErrorResponse({"Error": response.statusCode + ": " + body})
       }
     }
   );
 
-  function sendResponse(post_response) {
+  function sendErrorResponse(post_response) {
+    res.send(post_response);
+  }
+  // 🚸 Separate out into Index and Post response?
+  function sendIndexResponse(post_response) {
     var posts = post_response.posts_list
     for (post in posts) {
       var rawDate = new Date(posts[post].post_date);
@@ -94,20 +99,50 @@ app.get('/', function(req, res) {
         pagination[i]["isCurrentPage"] = false;
       }
     }
+
     res.locals = {
+        index: true,
         pagination: pagination,
         title: "",
         posts: posts,
-        hrBorderColors: hrBorderColors
+        hrBorderColors: hexcolors.hrBorderColor()
     }
     res.render("index");
   }
+
+}
+
+
+
+app.get('/', function(req, res) {
+  var query = {
+    page: 1
+  };
+  if (req.query.page) {
+    if (parseInt(req.query.page) > 0) {
+  }
+    query.page = req.query.page;
+  }
+
+  apiRequest(res, query);
+});
+
+app.get("/post/", function(req, res) {
+  var query = {};
+  // 🚸 When API is sending slug, replace title with slug
+  if (req.query.title) {
+    query.title = req.query.title;
+  }
+
+  apiRequest(res, query);
+
 });
 
 
 app.get("/new/", function(req, res) {
 
   res.locals = {
+    title: "New",
     apiUrl: apiClientUrl
   }
 
