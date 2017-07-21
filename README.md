@@ -12,4 +12,4 @@ PW Blog
 
 #### To run docker container in production:
 
-`docker run --env API_URL=[API URL] --env CLIENT_API=[API URL]--env API_PORT=80 --env ENV=PRODUCTION -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
+`docker run --env API_URL=[API URL] --env CLIENT_API=[API URL] --env API_PORT=80 --env ENV=PRODUCTION -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
