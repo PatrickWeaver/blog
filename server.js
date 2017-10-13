@@ -31,6 +31,11 @@ const apiOptions = {
   path: "/blog"
 };
 
+console.log("**");
+console.log(process.env.API_URL);
+console.log(process.env.API_PORT);
+console.log("**");
+
 const apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
 
 const clientUrl = process.env.CLIENT_API;
