@@ -1,10 +1,6 @@
 <ul id="posts">
   {{#each posts}}
-    <li class="post">
-        <h2 class="post-title"><a href="/post?title={{ this.post_title }}">{{ this.post_title }}</a></h2>
-        <h5 class="date">{{ this.post_formatted_date }}</h5>
-        <div class="post-body">{{ this.post_preview }}</div>
-    </li>
+    {{> postPreview this}}
     {{#unless @last}}
       <hr style="border-top: 2px dotted {{ @root.hrBorderColors.a }}; border-bottom: 2px dotted {{ @root.hrBorderColors.b }};">
     {{/unless}}

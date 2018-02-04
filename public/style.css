@@ -50,6 +50,14 @@ ul#posts {
   list-style: none;
 }
 
+.post {
+  margin-bottom: 1em;
+}
+
+.post-body, .post-preview {
+
+}
+
 /* Pagination */
 
 ul#pagination {

@@ -1,5 +1,5 @@
 // server.js
-
+const env = process.env.ENV;
 // init project
 const express = require("express");
 const app = express();
@@ -35,6 +35,17 @@ console.log("**");
 console.log(process.env.API_URL);
 console.log(process.env.API_PORT);
 console.log("**");
+
+if (process.env.ENV == "DEV"){
+  console.log("ENV IS: " + process.env.ENV);
+} else {
+  console.log("ENV IS NOT DEV");
+  if (process.env.PORT){
+    console.log("env port: " + process.env.PORT);
+    //port = process.env.PORT;
+  }
+}
+
 
 const apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
 
@@ -120,6 +131,11 @@ function apiRequest(res, subpath, query) {
 
 
 app.get('/', function(req, res) {
+
+  if (env == "DEV"){
+    // Reload partials on root reload to upate.
+    hbs.registerPartials(__dirname + '/views/partials');
+  }
   var query = {
     page: 1
   };
@@ -155,16 +171,6 @@ app.get("/new/", function(req, res) {
 
   res.render("new");
 })
-
-if (process.env.ENV == "DEV"){
-  console.log("ENV IS: " + process.env.ENV);
-} else {
-  console.log("ENV IS NOT DEV");
-  if (process.env.PORT){
-    console.log("env port: " + process.env.PORT);
-    //port = process.env.PORT;
-  }
-}
 
 // listen for requests :)
 var listener = app.listen(port, function () {
