@@ -60,7 +60,14 @@ app.use(express.static('public'));
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 // Handlebars Partials:
-hbs.registerPartials(__dirname + '/views/partials');
+
+if (env == "DEV"){
+  app.get("*", function (req, res, next) {
+    // Reload partials on root reload to upate.
+    hbs.registerPartials(__dirname + '/views/partials');
+    next();
+  });
+}
 
 function apiRequest(res, subpath, query) {
   request(
@@ -131,11 +138,6 @@ function apiRequest(res, subpath, query) {
 
 
 app.get('/', function(req, res) {
-
-  if (env == "DEV"){
-    // Reload partials on root reload to upate.
-    hbs.registerPartials(__dirname + '/views/partials');
-  }
   var query = {
     page: 1
   };
