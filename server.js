@@ -6,22 +6,9 @@ const app = express();
 const hbs = require("hbs");
 const http = require("http");
 const request = require("request");
-var marked = require("marked");
-https://www.npmjs.com/package/marked
-// 🚸 Look into marked options
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false
-});
+
 const hexcolors = require("./helpers/hexcolors");
-const constants = require("./helpers/constants");
-const monthNames = constants.monthNames;
+const dates = require("./helpers/dates");
 
 const port = 8106;
 
@@ -46,10 +33,10 @@ if (process.env.ENV == "DEV"){
   }
 }
 
-
 const apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
 
-const clientUrl = process.env.CLIENT_API;
+// I don't remember how clientAPI is supposed to be different changing to API_URL for now
+const clientUrl = process.env.API_URL;
 const apiClientUrl = "http://" + clientUrl + ":" + apiOptions.port + apiOptions.path;
 
 
@@ -70,11 +57,13 @@ if (env == "DEV"){
 }
 
 function apiRequest(res, subpath, query) {
+  var options = {
+    url: apiUrl + subpath,
+    qs: query
+  }
+
   request(
-    {
-      url: apiUrl + subpath,
-      qs: query
-    },
+    options,
     function(error, response, body){
       var error = false;
       if(response.statusCode < 400){
@@ -85,8 +74,6 @@ function apiRequest(res, subpath, query) {
         } else {
           // 🚸 Currently sending 1 post on idex page, change this to post page
           sendIndexResponse(apiResponse);
-          console.log(apiResponse);
-          //error = true;
         }
       } else {
         error = true;
@@ -103,12 +90,9 @@ function apiRequest(res, subpath, query) {
   // 🚸 Separate out into Index and Post response?
   function sendIndexResponse(post_response) {
     var posts = post_response.posts_list
-    for (post in posts) {
-      var rawDate = new Date(posts[post].post_date);
-      var formattedDate = "";
-      formattedDate += monthNames[rawDate.getMonth()] + " " + rawDate.getDate() + ", " + rawDate.getFullYear();
-      posts[post].post_formatted_date = formattedDate;
-      posts[post].post_body_marked = marked(posts[post].post_body);
+    for (var p in posts) {
+      var post = posts[p];
+      post.post_formatted_date = dates.formatDate(post.post_date);
     }
     var pages = Math.ceil(parseInt(post_response.total_posts) / 5)
     var pagination = {};
@@ -136,7 +120,6 @@ function apiRequest(res, subpath, query) {
 }
 
 
-
 app.get('/', function(req, res) {
   var query = {
     page: 1
@@ -152,13 +135,11 @@ app.get('/', function(req, res) {
   apiRequest(res, "/posts/", query);
 });
 
-app.get("/post/", function(req, res) {
+app.get("/post/:number/", function(req, res) {
   var query = {};
-  // 🚸 When API is sending slug, replace title with slug
-  if (req.query.title) {
-    query.title = req.query.title;
-  }
+  postNumber = req.params.number;
 
+  // Use number to ask for a specific post from the full list
   apiRequest(res, "/post", query);
 
 });
