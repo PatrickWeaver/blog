@@ -17,3 +17,9 @@ PW Blog
 
 ### Run docker in DEV with staging API:
 `docker run -v $PWD:/usr/src/blog --env API_URL=[STAGING API URL]  --env API_PORT=80 --env ENV=DEV -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
+
+### Run on computer in DEV:
+```
+npm install
+API_URL=localhost API_PORT=8000 ENV=DEV npm start
+```
