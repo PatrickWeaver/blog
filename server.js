@@ -5,7 +5,8 @@ const express = require("express");
 const app = express();
 const hbs = require("hbs");
 const http = require("http");
-const request = require("request");
+//const request = require("request");
+const rp = require('request-promise');
 
 const hexcolors = require("./helpers/hexcolors");
 const dates = require("./helpers/dates");
@@ -62,6 +63,10 @@ function apiRequest(res, subpath, query) {
     qs: query
   }
 
+
+
+
+  /*
   request(
     options,
     function(error, response, body){
@@ -83,7 +88,8 @@ function apiRequest(res, subpath, query) {
       }
     }
   );
-
+  */
+  /*
   function sendErrorResponse(post_response) {
     res.send(post_response);
   }
@@ -115,8 +121,11 @@ function apiRequest(res, subpath, query) {
         hrBorderColors: hexcolors.hrBorderColor()
     }
     res.render("index");
-  }
 
+
+  }
+  */
+  res.send("apiRequest()");
 }
 
 
@@ -132,6 +141,8 @@ app.get('/', function(req, res) {
   for (var i in query) {
     console.log(i + ": " + query[i]);
   }
+
+
   apiRequest(res, "/posts/", query);
 });
 
