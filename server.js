@@ -135,13 +135,13 @@ app.get('/', function(req, res) {
   apiRequest(res, "/posts/", query);
 });
 
-app.get("/post/:number/", function(req, res) {
-  var query = {};
-  postNumber = req.params.number;
+app.get("/post/:slug/", function(req, res) {
+  var slug = req.params.slug;
+  console.log("Single Post");
 
   // Use number to ask for a specific post from the full list
-  apiRequest(res, "/post", query);
-
+  //apiRequest(res, "/post", query);
+  res.send(slug);
 });
 
 

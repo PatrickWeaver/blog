@@ -1,9 +1,8 @@
 <li class="post">
-  <h2 class="post-title"><a href="/post?title={{ post_title }}">{{ post_title }}</a></h2>
+  <h2 class="post-title"><a href="/post?title={{ title }}">{{ title }}</a></h2>
   <h4 class="date">{{ post_formatted_date }}</h4>
   <div class="post-preview">
     {{ post_preview }}
-
-    <a href="/post?title={{ post_title }}">(full post)</a>
+    <a href="/post/{{ slug }}">(full post)</a>
   </div>
 </li>
