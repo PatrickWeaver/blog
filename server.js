@@ -128,6 +128,32 @@ function apiRequest(res, subpath, query) {
   res.send("apiRequest()");
 }
 
+function testOne(input) {
+  return input + " (" + input + ")";
+}
+
+function testTwo(input) {
+  return "[" + input + "]";
+}
+
+var apiPromise = new Promise(function(resolve, reject) {
+  if (input.length > 5) {
+    resolve(testOne(input));
+  } else {
+    reject(Error(testTwo(input)));
+  }
+});
+
+var getAPI = function(input) {
+  console.log(input);
+  return apiPromise.then(function(value){
+    return value;
+  })
+}
+
+var promise1 = new Promise(function(resolve, reject) {
+  resolve('Success!');
+});
 
 app.get('/', function(req, res) {
   var query = {
@@ -141,10 +167,23 @@ app.get('/', function(req, res) {
   for (var i in query) {
     console.log(i + ": " + query[i]);
   }
+  /*
+  var a = "test";
+  promise1.then(function(value) {
+    console.log("p1 " + a);
+    a = value;
+    console.log("p2 " + a);
+    res.send(a)
+    // expected output: "Success!"
+  });
+  console.log(a);
+  */
 
 
-  apiRequest(res, "/posts/", query);
+  var a = getAPI("Test");
+  res.send(a);
 });
+
 
 app.get("/post/:number/", function(req, res) {
   var query = {};
