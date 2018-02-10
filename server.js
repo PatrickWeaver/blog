@@ -57,61 +57,67 @@ if (env == "DEV"){
   });
 }
 
-function apiRequest(res, subpath, query) {
+function apiRequest(path, query) {
   var options = {
-    url: apiUrl + subpath,
+    url: apiUrl + path,
     qs: query
   }
+  return rp(options)
+  .then(function (apiResponse) {
+    return JSON.parse(apiResponse);
+  })
+  .catch(function (err) {
+    console.log(err);
+    return err;
+  });
+}
 
+function formatPost(post) {
+  post.post_formatted_date = dates.formatDate(post.post_date);
+  return post;
+}
 
+function paginate(totalPosts, currentPage) {
+  var pages = Math.ceil(parseInt(totalPosts) / 5);
 
-
-  /*
-  request(
-    options,
-    function(error, response, body){
-      var error = false;
-      if(response.statusCode < 400){
-        var apiResponse = JSON.parse(body);
-        // 🚸 Should probably add something that indicates response type in API.
-        if (apiResponse.posts_list.length > 1){
-          sendIndexResponse(apiResponse);
-        } else {
-          // 🚸 Currently sending 1 post on idex page, change this to post page
-          sendIndexResponse(apiResponse);
-        }
-      } else {
-        error = true;
-      }
-      if (error){
-        sendErrorResponse({"Error": response.statusCode + ": " + body})
-      }
+  // 🚸 Should change this to use map
+  var pagination = {};
+  for (var i = 1; i <= pages; i++) {
+    pagination[i] = {
+      pageNumber: i
     }
-  );
-  */
-  /*
-  function sendErrorResponse(post_response) {
-    res.send(post_response);
+    if (i === parseInt(currentPage)){
+      pagination[i]["isCurrentPage"] = true;
+    } else {
+      pagination[i]["isCurrentPage"] = false;
+    }
   }
-  // 🚸 Separate out into Index and Post response?
-  function sendIndexResponse(post_response) {
-    var posts = post_response.posts_list
+}
+
+app.get('/', function(req, res) {
+  // By default ask for the first page of results
+  var query = {
+    page: 1
+  };
+  // Check for a specified page in the query string
+  if (req.query.page) {
+    if (parseInt(req.query.page) > 0) {
+  }
+    // If there is a queried page, replace default page 1
+    query.page = req.query.page;
+  }
+
+  // ask the API for list of posts
+  apiRequest("/posts", query)
+  .then(function(apiResponse) {
+    var posts = apiResponse.posts_list
     for (var p in posts) {
-      var post = posts[p];
-      post.post_formatted_date = dates.formatDate(post.post_date);
+      posts[p] = formatPost(posts[p]);
     }
-    var pages = Math.ceil(parseInt(post_response.total_posts) / 5)
-    var pagination = {};
-    for (var i = 1; i <= pages; i++) {
-      pagination[i] = {
-        pageNumber: i
-      }
-      if (i === parseInt(post_response.page)){
-        pagination[i]["isCurrentPage"] = true;
-      } else {
-        pagination[i]["isCurrentPage"] = false;
-      }
-    }
+
+    // Figure out how many pages to display,
+    // and which current page not to link to.
+    var pagination = paginate(apiResponse.total_posts, apiResponse.page);
 
     res.locals = {
         index: true,
@@ -121,67 +127,10 @@ function apiRequest(res, subpath, query) {
         hrBorderColors: hexcolors.hrBorderColor()
     }
     res.render("index");
-
-
-  }
-  */
-  res.send("apiRequest()");
-}
-
-function testOne(input) {
-  return input + " (" + input + ")";
-}
-
-function testTwo(input) {
-  return "[" + input + "]";
-}
-
-var apiPromise = new Promise(function(resolve, reject) {
-  if (input.length > 5) {
-    resolve(testOne(input));
-  } else {
-    reject(Error(testTwo(input)));
-  }
-});
-
-var getAPI = function(input) {
-  console.log(input);
-  return apiPromise.then(function(value){
-    return value;
   })
-}
-
-var promise1 = new Promise(function(resolve, reject) {
-  resolve('Success!');
-});
-
-app.get('/', function(req, res) {
-  var query = {
-    page: 1
-  };
-  if (req.query.page) {
-    if (parseInt(req.query.page) > 0) {
-  }
-    query.page = req.query.page;
-  }
-  for (var i in query) {
-    console.log(i + ": " + query[i]);
-  }
-  /*
-  var a = "test";
-  promise1.then(function(value) {
-    console.log("p1 " + a);
-    a = value;
-    console.log("p2 " + a);
-    res.send(a)
-    // expected output: "Success!"
+  .catch(function(err) {
+    res.send(String(err));
   });
-  console.log(a);
-  */
-
-
-  var a = getAPI("Test");
-  res.send(a);
 });
 
 
@@ -190,7 +139,7 @@ app.get("/post/:number/", function(req, res) {
   postNumber = req.params.number;
 
   // Use number to ask for a specific post from the full list
-  apiRequest(res, "/post", query);
+  //apiRequest("/posts", query);
 
 });
 
