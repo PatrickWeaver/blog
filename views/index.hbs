@@ -1,8 +1,8 @@
 <ul id="posts">
   {{#each posts}}
-    {{> postPreview this}}
+    {{> postPreview this }}
     {{#unless @last}}
-      <hr style="border-top: 2px dotted {{ @root.hrBorderColors.a }}; border-bottom: 2px dotted {{ @root.hrBorderColors.b }};">
+      {{> bars hrBorderColors=../hrBorderColors }}
     {{/unless}}
   {{/each}}
 </ul>

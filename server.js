@@ -73,7 +73,7 @@ function apiRequest(path, query) {
 }
 
 function formatPost(post) {
-  post.post_formatted_date = dates.formatDate(post.post_date);
+  post.formatted_date = dates.formatDate(post.post_date);
   return post;
 }
 
@@ -92,6 +92,7 @@ function paginate(totalPosts, currentPage) {
       pagination[i]["isCurrentPage"] = false;
     }
   }
+  return pagination;
 }
 
 app.get('/', function(req, res) {
@@ -133,24 +134,37 @@ app.get('/', function(req, res) {
   });
 });
 
-<<<<<<< HEAD
 app.get("/post/:slug/", function(req, res) {
-  var slug = req.params.slug;
-  console.log("Single Post");
+  var query = {
+    slug: req.params.slug
+  }
+  apiRequest("/posts", query)
+  .then(function(apiResponse) {
+    // This will be unnecessary once the API is returning a post based on a slug query.
+    var posts = apiResponse.posts_list
+    var post = false;
+    for (var i in posts) {
+      if (posts[i].slug === query.slug) {
+        post = posts[i];
+        break;
+      }
+    }
+    if (post) {
+      post = formatPost(post);
+      res.locals = {
+          title: " - " + post.title,
+          post: post,
+          hrBorderColors: hexcolors.hrBorderColor()
+      }
 
-  // Use number to ask for a specific post from the full list
-  //apiRequest(res, "/post", query);
-  res.send(slug);
-=======
-
-app.get("/post/:number/", function(req, res) {
-  var query = {};
-  postNumber = req.params.number;
-
-  // Use number to ask for a specific post from the full list
-  //apiRequest("/posts", query);
-
->>>>>>> master
+      res.render("post");
+    } else {
+      res.send("No post found.");
+    }
+  })
+  .catch(function(err) {
+    res.send(String(err));
+  });
 });
 
 

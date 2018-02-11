@@ -5,6 +5,13 @@
 body {
   font-family: arial, sans-serif;
   margin: 1em 4%;
+  font-size: 130%;
+
+}
+
+#container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 hr {
@@ -31,8 +38,13 @@ h1#site-header > a, h1#site-header > a:hover, h1#site-header > a:visited, h1#sit
   color: black;
 }
 
-h5.date {
-  margin-bottom: 0;
+h2.post-title {
+  margin: .5em auto .25em;
+}
+
+h4.date {
+  margin-top: .25em;
+  margin-bottom: 1em;
 }
 
 div.post-body {
