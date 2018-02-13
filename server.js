@@ -95,6 +95,7 @@ function paginate(totalPosts, currentPage) {
   return pagination;
 }
 
+// Get list of posts, paginated with ?page=2
 app.get('/', function(req, res) {
   // By default ask for the first page of results
   var query = {
@@ -134,6 +135,7 @@ app.get('/', function(req, res) {
   });
 });
 
+// Get a single post with slug
 app.get("/post/:slug/", function(req, res) {
   var query = {
     slug: req.params.slug
@@ -168,6 +170,7 @@ app.get("/post/:slug/", function(req, res) {
 });
 
 
+// New post form
 app.get("/new/", function(req, res) {
 
   res.locals = {

@@ -91,7 +91,7 @@ ul#pagination > li.page-number {
 }
 
 #new-post label, #new-post input {
-  font-size: 200%;
+  font-size: 130%;
 }
 
 #new-post textarea, #new-post button {
@@ -102,4 +102,14 @@ ul#pagination > li.page-number {
 #new-post textarea {
   width: 100%;
   padding: .5em;
+}
+
+
+
+
+
+@media (max-width: 800px) {
+  #new-post label, #new-post input, #new-post textarea, #new-post button {
+    font-size: 100%;
+  }
 }
