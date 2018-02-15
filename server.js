@@ -48,6 +48,7 @@ app.use(express.static('public'));
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 // Handlebars Partials:
+hbs.registerPartials(__dirname + '/views/partials');
 
 if (env == "DEV"){
   app.get("*", function (req, res, next) {
@@ -140,10 +141,10 @@ app.get("/post/:slug/", function(req, res) {
   var query = {
     slug: req.params.slug
   }
-  apiRequest("/posts", query)
+  apiRequest("/post", query)
   .then(function(apiResponse) {
     // This will be unnecessary once the API is returning a post based on a slug query.
-    var posts = apiResponse.posts_list
+    var posts = apiResponse.posts_list;
     var post = false;
     for (var i in posts) {
       if (posts[i].slug === query.slug) {
