@@ -144,13 +144,11 @@ app.get("/post/:slug/", function(req, res) {
   apiRequest("/post", query)
   .then(function(apiResponse) {
     // This will be unnecessary once the API is returning a post based on a slug query.
-    var posts = apiResponse.posts_list;
-    var post = false;
-    for (var i in posts) {
-      if (posts[i].slug === query.slug) {
-        post = posts[i];
-        break;
-      }
+    var data = apiResponse.posts_list
+    if (data) {
+      post = data[0];
+    } else {
+      post = false;
     }
     if (post) {
       post = formatPost(post);
