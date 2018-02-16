@@ -2,7 +2,13 @@
   <h2 class="post-title"><a href="/post/{{ slug }}">{{ title }}</a></h2>
   <h4 class="date">{{ formatted_date }}</h4>
   <div class="post-preview">
-    {{ post_preview }}
-    <a href="/post/{{ slug }}">(full post)</a>
+    <p>
+      {{ post_preview }}
+    </p>
+    {{# unless full_post_in_preview }}
+      <a href="/post/{{ slug }}">
+        <p class="read-more">Read More →</p>
+      </a>
+    {{/ unless }}
   </div>
 </li>
