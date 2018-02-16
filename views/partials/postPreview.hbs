@@ -1,6 +1,22 @@
 <li class="post">
-  <h2 class="post-title"><a href="/post/{{ slug }}">{{ title }}</a></h2>
-  <h4 class="date">{{ formatted_date }}</h4>
+  <h2 class="post-title">
+    <a href="/post/{{ slug }}">
+      {{# if title }}
+        {{ title }}
+      {{/ if }}
+    </a>
+  </h2>
+  <h4 class="date">
+    {{ formatted_date }}
+  </h4>
+  {{# unless title }}
+    <span class="permalink">
+        &nbsp;&nbsp;
+        <a href="/post/{{ slug }}">
+          link →
+        </a>
+    </span>
+  {{/ unless }}
   <div class="post-preview">
     <p>
       {{ post_preview }}

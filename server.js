@@ -168,13 +168,13 @@ app.get("/post/:slug/", function(req, res) {
   });
 });
 
-
 // New post form
 app.get("/new/", function(req, res) {
 
   res.locals = {
     title: "New",
-    apiUrl: apiClientUrl
+    apiUrl: apiClientUrl,
+    hrBorderColors: hexcolors.hrBorderColor()
   }
 
   res.render("new");

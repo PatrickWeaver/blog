@@ -2,9 +2,20 @@ $('document').ready(function(){
 
   // New Post:
 
+  // Autofill date:
+  var d = new Date;
+  $( "#new-post-date").val(formatDate(d));
+
+  function formatDate(d) {
+    return(
+    d.getFullYear() + "-" + parseInt(d.getMonth() + 1) + "-" + d.getDate()
+    + " " + d.getHours() + ":" + d.getMinutes())
+  }
+
+
   // Generate slug
   // From: https://gist.github.com/mathewbyrne/1280286
-
+  // Shortened to 1024 characters if if longer (it shouldn't be because the title is also 1024)
   function slugify(text) {
     slug = text.toString().toLowerCase()
       .replace(/\s+/g, '-')           // Replace spaces with -
@@ -12,33 +23,44 @@ $('document').ready(function(){
       .replace(/\-\-+/g, '-')         // Replace multiple - with single -
       .replace(/^-+/, '')             // Trim - from start of text
       .replace(/-+$/, '');            // Trim - from end of text
-    slug = capAt1024(slug);
+    slug = slug.substr(0, 1024);
     return slug;
   }
 
-  function capAt1024(text) {
-    if (text.length > 1024) {
-      text = text.substr(0, 1024);
-      if (text[1023] === "-") {
-        text = text.substr(0, 1024);
-      }
-    }
-    return text;
+  function fillSlug(text) {
+    $(  "#new-post-slug" ).val(slugify(text.substr(0, 1024)));
   }
 
   // Auto populate slug on writing in title field
   $( "#new-post-title" ).keyup(function() {
-    $( "#new-post-slug" ).val(slugify($( this ).val()));
-    $( this ).val(capAt1024($( this ).val()));
+    if ( $( "#new-post-slug" ).val() === "") {
+      fillSlug( $( this ).val() );
+    }
+    $( this ).val( $( this ).val().substr(0, 1024));
   });
-  // And in slug field
-  $( "#new-post-slug" ).keyup(function() {
-    $( "#new-post-slug" ).val(slugify($( this).val()));
+
+  $( "#new-post-slug" ).focusout(function() {
+    fillSlug( $( this ).val() );
+  });
+
+  $( "#new-post-body" ).keyup(function() {
+    if (
+      $( "#new-post-title" ).val() === ""
+      &&
+      $( "#new-post-slug" ).val() === ""
+    ) {
+      fillSlug( $( this ).val() );
+    }
   });
 
   $( "#new-post-form > .submit").click(function(event) {
     event.preventDefault();
-    postAPI("/posts/new/");
+    console.log($("#new-post-body").val());
+    if ( $( "#new-post-body" ).val() != "") {
+      postAPI("/posts/new/");
+    } else {
+      alert("Post must have body");
+    }
   });
 
 
@@ -47,13 +69,22 @@ $('document').ready(function(){
     var apiUrl = $( "#apiUrl" ).html();
     //var apiUrl = "http://localhost:8000/blog/posts/"
     // Grab post data from the form:
+    var slug = slugify($( "#new-post-slug" ).val().substr(0, 1024));
+    if (slug === "") {
+      slug = slugify($( "#new-post-title" ).val().substr(0, 1024));
+    }
+    if (slug === "") {
+      slug = slugify($( "#new-post-body" ).val().substr(0, 1024));
+    }
+
     var apiData = {
-      title: capAt1024($( "#new-post-title" ).val()),
-      slug: slugify($( "#new-post-slug").val()),
+      title: $( "#new-post-title" ).val().substr(0, 1024),
+      slug: slug,
       post_date: $( "#new-post-date" ).val(),
       body: $( "#new-post-body" ).val()
     }
     console.log("API URL: " + apiUrl + path);
+    console.log(apiData.slug);
     $.ajax({
       type: "POST",
       dataType: "json",
