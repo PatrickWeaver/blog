@@ -6,6 +6,8 @@ $('document').ready(function(){
   var d = new Date;
   $( "#new-post-date").val(formatDate(d));
 
+  var autofillSlug = true;
+
   function formatDate(d) {
     return(
     d.getFullYear() + "-" + parseInt(d.getMonth() + 1) + "-" + d.getDate()
@@ -33,14 +35,21 @@ $('document').ready(function(){
 
   // Auto populate slug on writing in title field
   $( "#new-post-title" ).keyup(function() {
-    if ( $( "#new-post-slug" ).val() === "") {
+    if ( autofillSlug ) {
       fillSlug( $( this ).val() );
     }
     $( this ).val( $( this ).val().substr(0, 1024));
   });
 
+  $( "#new-post-slug" ).focusin(function() {
+    autofillSlug = false;
+  });
+
   $( "#new-post-slug" ).focusout(function() {
     fillSlug( $( this ).val() );
+    if ( $( this ).val() === slugify( $( "#new-post-title" ).val().substr(0, 1024)) ) {
+      autofillSlug = true;
+    }
   });
 
   $( "#new-post-body" ).keyup(function() {
