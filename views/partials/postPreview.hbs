@@ -10,21 +10,29 @@
     {{ formatted_date }}
   </h4>
   {{# unless title }}
-    <span class="permalink">
-        &nbsp;&nbsp;
-        <a href="/post/{{ slug }}">
-          link →
-        </a>
-    </span>
+    {{# unless show_read_more }}
+      <span class="permalink">
+          &nbsp;&nbsp;
+          <a href="/post/{{ slug }}">
+            link →
+          </a>
+      </span>
+    {{/ unless }}
   {{/ unless }}
   <div class="post-preview">
-    <p>
-      {{ post_preview }}
-    </p>
-    {{# unless full_post_in_preview }}
+    {{# if summary }}
+      <p>
+        Summary: {{ summary }}
+      </p>
+    {{ else }}
+      <p>
+        {{ post_preview }}
+      </p>
+    {{/ if }}
+    {{# if show_read_more }}
       <a href="/post/{{ slug }}">
         <p class="read-more">Read More →</p>
       </a>
-    {{/ unless }}
+    {{/ if }}
   </div>
 </li>

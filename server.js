@@ -75,6 +75,10 @@ function apiRequest(path, query) {
 
 function formatPost(post) {
   post.formatted_date = dates.formatDate(post.post_date);
+  post.show_read_more = true;
+  if (post.full_post_in_preview && post.summary === "") {
+    post.show_read_more = false;
+  }
   return post;
 }
 
@@ -105,9 +109,9 @@ app.get('/', function(req, res) {
   // Check for a specified page in the query string
   if (req.query.page) {
     if (parseInt(req.query.page) > 0) {
-  }
-    // If there is a queried page, replace default page 1
-    query.page = req.query.page;
+      // If there is a queried page, replace default page 1
+      query.page = req.query.page;
+    }
   }
 
   // ask the API for list of posts
