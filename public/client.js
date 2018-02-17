@@ -92,7 +92,6 @@ $('document').ready(function(){
     }
 
     $( "body" ).on("click", ".fill-slug-from", function(event) {
-      console.log("click");
       event.preventDefault();
       slug = slugify($( "#new-post-" + $( this ).html().toLowerCase() ).val().substr(0, 1024));
       $( "#new-post-slug" ).val(slug);
@@ -104,6 +103,13 @@ $('document').ready(function(){
         scrollTop: $("#new-post-slug").prev().offset().top
     }, 500);
   }
+
+  $( ".close-status-modal" ).click(function() {
+    $( "#post-status" ).hide();
+    $( "#post-loading" ).hide();
+    $( "#post-success" ).hide();
+    $( "#post-failure" ).hide();
+  });
 
   function postAPI(path) {
     // API url is passed from environment variable to front end via local
@@ -125,6 +131,10 @@ $('document').ready(function(){
     }
     console.log("API URL: " + apiUrl + path);
     console.log(apiData.slug);
+
+    $( "#post-status" ).show();
+    $( "#post-loading" ).show();
+
     $.ajax({
       type: "POST",
       dataType: "json",
@@ -134,11 +144,19 @@ $('document').ready(function(){
       //data: apiData,
       success: function(data) {
         console.log(data);
+        setTimeout(function() {
+          $( "#post-success" ).show();
+          $( "#post-loading" ).hide();
+        }, 500);
         //alert("Posted!");
-        location.href="/";
+        //location.href="/";
       },
       error: function(xhr, status, err, a) {
         console.log("Error: " + err + " -- Status: " + status);
+        setTimeout(function() {
+          $( "#post-failure" ).show();
+          $( "#post-loading" ).hide();
+        }, 500);
       }
     });
   }
