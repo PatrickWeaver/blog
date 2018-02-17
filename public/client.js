@@ -143,22 +143,32 @@ $('document').ready(function(){
       data: JSON.stringify(apiData),
       //data: apiData,
       success: function(data) {
-        console.log(data);
-        setTimeout(function() {
-          $( "#post-success" ).show();
-          $( "#post-loading" ).hide();
-        }, 500);
-        //alert("Posted!");
-        //location.href="/";
+        try {
+          console.log(data);
+          if (data[0].success) {
+            setTimeout(function() {
+              $( "#post-success" ).show();
+              $( "#post-loading" ).hide();
+            }, 500);
+          } else {
+            throw "Not posted";
+          }
+        }
+        catch (err) {
+          apiPostError(err);
+        }
       },
       error: function(xhr, status, err, a) {
         console.log("Error: " + err + " -- Status: " + status);
-        setTimeout(function() {
-          $( "#post-failure" ).show();
-          $( "#post-loading" ).hide();
-        }, 500);
+        apiPostError(err);
       }
     });
+    function apiPostError(e) {
+      setTimeout(function() {
+        $( "#post-failure" ).show();
+        $( "#post-loading" ).hide();
+      }, 500);
+    }
   }
 
 });
