@@ -25,15 +25,10 @@ if (process.env.ENV == "DEV"){
   console.log("ENV IS NOT DEV");
   if (process.env.PORT){
     console.log("env port: " + process.env.PORT);
-    //port = process.env.PORT;
   }
 }
 
 const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
-
-// I don't remember how clientAPI is supposed to be different changing to API_URL for now
-//const clientUrl = process.env.API_URL;
-//const apiClientUrl = "http://" + clientUrl + ":" + apiOptions.port + apiOptions.path;
 
 
 // http://expressjs.com/en/starter/static-files.html
@@ -176,7 +171,7 @@ app.get("/new/", function(req, res) {
 
   res.locals = {
     title: "New",
-    apiUrl: apiClientUrl,
+    apiUrl: apiUrl,
     hrBorderColors: hexcolors.hrBorderColor()
   }
 
