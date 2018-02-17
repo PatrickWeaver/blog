@@ -1,15 +1,28 @@
 <div id="new-post">
   <form id="new-post-form">
+
     <label>Title:</label>
     <input type="text" name="title" id="new-post-title">
+
     <label>URL Slug:</label>
     <input type="text" name="slug" id="new-post-slug">
+    <div id="slug-fill">
+      <h5>Post must have a slug:</h5>
+      <h6>Fill From:</h6>
+      <ul>
+      </ul>
+    </div>
+
     <label>Post Date:</label>
     <input type="datetime-local" name="post_date" id="new-post-date">
+
     <label>Summary:</label>
     <textarea name="summary" id="new-post-summary"></textarea>
+
     <label>Body:</label>
     <textarea name="body" id="new-post-body"></textarea>
+
     <button class="submit">Submit</button>
+
   </form>
 </div>

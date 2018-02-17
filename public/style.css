@@ -29,7 +29,7 @@ button:hover, button:active {
   background-color: #E0F0E8;
 }
 
-#hide {
+.hide {
   display: none;
   font-size: 0;
   height: 0;
@@ -142,7 +142,42 @@ ul#pagination > li.page-number {
   line-height: 130%;
 }
 
-#new-post textarea, #new-post button {
+#new-post #slug-fill {
+  display: none;
+  border: 1px solid red;
+  padding: .5em;
+}
+
+#new-post #slug-fill h6 {
+  margin: 0;
+  display: inline-block;
+}
+
+#new-post #slug-fill h5 {
+  margin: 0;
+}
+
+#new-post #slug-fill ul {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#new-post #slug-fill ul li {
+  padding: .25em;
+  text-transform:capitalize;
+  display: inline-block;
+}
+
+#new-post #slug-fill ul li button {
+  font-size: 100%;
+  padding: .1em .25em;
+}
+
+
+
+#new-post textarea, #new-post button.submit {
   font-size: 150%;
   line-height: 150%;
 }
@@ -156,7 +191,7 @@ ul#pagination > li.page-number {
   font-family: georgia, serif;
 }
 
-#new-post button {
+#new-post button.submit {
   margin: .5em 0 1em;
   cursor: pointer;
 }

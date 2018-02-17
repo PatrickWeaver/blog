@@ -72,6 +72,38 @@ $('document').ready(function(){
     }
   });
 
+  function fillSlugFrom(){
+    var fillButtonsHTML = "";
+    var fillFromAreas = ["title", "summary", "body"];
+    for (var i in fillFromAreas) {
+      var value = $( "#new-post-" + fillFromAreas[i] ).val();
+      if (value != "") {
+        fillButtonsHTML += "<li><button type='button' class='fill-slug-from'>" + fillFromAreas[i] + "</button></li>";
+      }
+    }
+
+    if (fillButtonsHTML != "") {
+      if (fillButtonsHTML != ""){
+        $( "#slug-fill > ul" ).html(fillButtonsHTML);
+      } else {
+        $( "#slug-fill > ul").hide();
+      }
+      $( "#slug-fill" ).show();
+    }
+
+    $( "body" ).on("click", ".fill-slug-from", function(event) {
+      console.log("click");
+      event.preventDefault();
+      slug = slugify($( "#new-post-" + $( this ).html().toLowerCase() ).val().substr(0, 1024));
+      $( "#new-post-slug" ).val(slug);
+      $( "#slug-fill" ).hide();
+    });
+
+
+    $('html, body').animate({
+        scrollTop: $("#new-post-slug").prev().offset().top
+    }, 500);
+  }
 
   function postAPI(path) {
     // API url is passed from environment variable to front end via local
@@ -80,10 +112,8 @@ $('document').ready(function(){
     // Grab post data from the form:
     var slug = slugify($( "#new-post-slug" ).val().substr(0, 1024));
     if (slug === "") {
-      slug = slugify($( "#new-post-title" ).val().substr(0, 1024));
-    }
-    if (slug === "") {
-      slug = slugify($( "#new-post-body" ).val().substr(0, 1024));
+      fillSlugFrom();
+      return;
     }
 
     var apiData = {
@@ -99,7 +129,6 @@ $('document').ready(function(){
       type: "POST",
       dataType: "json",
       contentType: "application/json",
-      //contentType: "application/x-www-form-urlencoded",
       url: apiUrl + path,
       data: JSON.stringify(apiData),
       //data: apiData,
