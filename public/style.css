@@ -105,17 +105,31 @@ ul#pagination > li.page-number {
 }
 
 
-
-
 /* New Post */
 
-#new-post label, #new-post input, #new-post textarea, #new-post button {
+#new-post label {
   display: block;
-  margin: .5em 0;
+  margin-top: 1em;
+  font-size: 115%;
 }
 
-#new-post label, #new-post input {
+#new-post input, #new-post textarea, #new-post button {
+  display: block;
+  margin: 0 0 .5em 0;
+  width: 100%;
+  padding: .25em .25em;
+}
+#new-post input#new-post-title {
+  font-weight: bold;
+}
+
+#new-post input#new-post-slug {
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+#new-post input {
   font-size: 130%;
+  line-height: 130%;
 }
 
 #new-post textarea, #new-post button {
@@ -123,9 +137,13 @@ ul#pagination > li.page-number {
   line-height: 150%;
 }
 
-#new-post textarea {
-  width: 100%;
-  padding: .5em;
+#new-post textarea#new-post-summary {
+  font-family: Ariel, sans-serif;
+}
+
+#new-post textarea#new-post-body {
+  height: 14em;
+  font-family: georgia, serif;
 }
 
 
