@@ -19,6 +19,16 @@ hr {
   height: 6px;
 }
 
+button {
+  background-color: #CCC;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+button:hover, button:active {
+  background-color: #E0F0E8;
+}
+
 #hide {
   display: none;
   font-size: 0;
@@ -113,7 +123,7 @@ ul#pagination > li.page-number {
   font-size: 115%;
 }
 
-#new-post input, #new-post textarea, #new-post button {
+#new-post input, #new-post textarea {
   display: block;
   margin: 0 0 .5em 0;
   width: 100%;
@@ -144,6 +154,11 @@ ul#pagination > li.page-number {
 #new-post textarea#new-post-body {
   height: 14em;
   font-family: georgia, serif;
+}
+
+#new-post button {
+  margin: .5em 0 1em;
+  cursor: pointer;
 }
 
 
