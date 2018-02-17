@@ -63,7 +63,7 @@ div.post-body {
   margin: .5em 0 2em;
 }
 
-.post-body p, .post-preview p {
+.post-body p, .post-preview p, .post-body li {
   line-height: 150%;
   font-size: 110%;
   font-family: Georgia, serif;
@@ -89,27 +89,15 @@ p.read-more {
 
 
 /* Posts */
+/* Pagination */
 
-ul#posts {
+ul#posts, ul#pagination {
   list-style: none;
+  padding: 0;
 }
 
 .post {
   margin: 1.5em 0;
-}
-
-
-
-ul{
-  margin-left: 1em;
-}
-
-
-
-/* Pagination */
-
-ul#pagination {
-  list-style: none;
 }
 
 ul#pagination > li.page-number {
