@@ -19,11 +19,6 @@ const apiOptions = {
   path: "/blog"
 };
 
-console.log("**");
-console.log(process.env.API_URL);
-console.log(process.env.API_PORT);
-console.log("**");
-
 if (process.env.ENV == "DEV"){
   console.log("ENV IS: " + process.env.ENV);
 } else {
@@ -34,11 +29,11 @@ if (process.env.ENV == "DEV"){
   }
 }
 
-const apiUrl = "http://" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
+const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
 
 // I don't remember how clientAPI is supposed to be different changing to API_URL for now
-const clientUrl = process.env.API_URL;
-const apiClientUrl = "http://" + clientUrl + ":" + apiOptions.port + apiOptions.path;
+//const clientUrl = process.env.API_URL;
+//const apiClientUrl = "http://" + clientUrl + ":" + apiOptions.port + apiOptions.path;
 
 
 // http://expressjs.com/en/starter/static-files.html

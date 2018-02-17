@@ -12,14 +12,14 @@ PW Blog
 
 #### To run docker container in production:
 
-`docker run --env API_URL=[API URL] --env CLIENT_API=[API URL] --env API_PORT=80 --env ENV=PRODUCTION -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
+`docker run --env API_URL=[http:// API URL] --env CLIENT_API=[API URL] --env API_PORT=80 --env ENV=PRODUCTION -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
 
 
 ### Run docker in DEV with staging API:
-`docker run -v $PWD:/usr/src/blog --env API_URL=[STAGING API URL]  --env API_PORT=80 --env ENV=DEV -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
+`docker run -v $PWD:/usr/src/blog --env API_URL=[http:// STAGING API URL]  --env API_PORT=80 --env ENV=DEV -p 8106:8106 --name blog patrickweaver/blog:[VERSION NUMBER]`
 
 ### Run on computer in DEV:
 ```
 npm install
-API_URL=localhost API_PORT=8000 ENV=DEV npm start
+API_URL=http://localhost API_PORT=8000 ENV=DEV npm start
 ```
