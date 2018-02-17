@@ -66,6 +66,7 @@ div.post-body {
 .post-body p, .post-preview p {
   line-height: 150%;
   font-size: 110%;
+  font-family: Georgia, serif;
 }
 
 .post-body p {
