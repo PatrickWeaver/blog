@@ -117,6 +117,10 @@ app.get('/', function(req, res) {
   // ask the API for list of posts
   apiRequest("/posts", query)
   .then(function(apiResponse) {
+    if (!apiResponse.response && !apiResponse.posts_list) {
+      throw "No Response From API"
+    }
+
     var posts = apiResponse.posts_list
     for (var p in posts) {
       posts[p] = formatPost(posts[p]);
