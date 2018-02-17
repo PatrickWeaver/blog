@@ -89,6 +89,7 @@ $('document').ready(function(){
     var apiData = {
       title: $( "#new-post-title" ).val().substr(0, 1024),
       slug: slug,
+      summary: $( "#new-post-summary" ).val(),
       post_date: $( "#new-post-date" ).val(),
       body: $( "#new-post-body" ).val()
     }
