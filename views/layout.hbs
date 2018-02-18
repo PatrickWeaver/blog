@@ -5,7 +5,11 @@
   </head>
   <body>
     <div id="container">
-      <h1 id="site-header"><a href="/">Patrick Weaver: Blog</a></h1>
+      <h1 id="site-header">
+        <a href="/">
+          {{ mainTitle }}
+        </a>
+      </h1>
       {{# if index }}
         {{> pagination }}
       {{/ if }}

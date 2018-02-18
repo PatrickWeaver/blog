@@ -1,4 +1,21 @@
 <div id="new-post">
+  <button type="button" id="import-post-button">Import Post</button>
+  <div id="import-post-form">
+    <form>
+      <label>URL:</label>
+      <input type="text" name="url" id="import-post-url">
+
+      <label>Source</label>
+      <select>
+        <option value="html">HTML</option>
+        <option value="markdown">Markdown</option>
+        <option value="medium">Medium</option>
+      </select>
+      <br>
+      <button class="submit" id="submit-import-post">Import</button>
+    </form>
+    {{> bars }}
+  </div>
   <form id="new-post-form">
 
     <label>Title:</label>

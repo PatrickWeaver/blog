@@ -1,5 +1,6 @@
 // server.js
 const env = process.env.ENV;
+const blogName = process.env.BLOGNAME;
 // init project
 const express = require("express");
 const app = express();
@@ -123,7 +124,8 @@ app.get('/', function(req, res) {
     res.locals = {
         index: true,
         pagination: pagination,
-        title: "",
+        mainTitle: blogName,
+        pageTitle: false,
         posts: posts,
         hrBorderColors: hexcolors.hrBorderColor()
     }
@@ -151,7 +153,8 @@ app.get("/post/:slug/", function(req, res) {
     if (post) {
       post = formatPost(post);
       res.locals = {
-          title: " - " + post.title,
+          mainTitle: blogName,
+          pageTitle: post.title,
           post: post,
           hrBorderColors: hexcolors.hrBorderColor()
       }
@@ -170,7 +173,8 @@ app.get("/post/:slug/", function(req, res) {
 app.get("/new/", function(req, res) {
 
   res.locals = {
-    title: "New",
+    mainTitle: blogName,
+    pageTitle: "New",
     apiUrl: apiUrl,
     hrBorderColors: hexcolors.hrBorderColor()
   }

@@ -1,5 +1,11 @@
 $('document').ready(function(){
 
+  // Import Post:
+  $( "button#import-post-button" ).click(function() {
+    $( "#import-post-form").show();
+  });
+
+
   // New Post:
 
   // Autofill date:

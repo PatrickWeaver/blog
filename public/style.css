@@ -117,6 +117,10 @@ ul#pagination > li.page-number {
 
 /* New Post */
 
+#import-post-form {
+  display: none;
+}
+
 #new-post label {
   display: block;
   margin-top: 1em;
