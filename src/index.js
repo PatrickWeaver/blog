@@ -1,8 +1,41 @@
+const $ = require("jquery");
+
 $('document').ready(function(){
+
+  // API url and Client url are passed from environment variable to front end via local
+  var apiUrl = $( "#apiUrl" ).html();
+  var clientUrl = $( "#clientUrl" ).html();
+
 
   // Import Post:
   $( "button#import-post-button" ).click(function() {
     $( "#import-post-form").show();
+  });
+
+  $( "button#submit-import-post" ).click(function(event) {
+    event.preventDefault();
+
+    importData = {
+      url: $( "#import-post-url").val(),
+      source: $( "#import-post-source :selected" ).val()
+    }
+    var path = "/import";
+
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      contentType: "application/json",
+      url: clientUrl + path,
+      data: JSON.stringify(importData),
+      success: function(data) {
+        console.log("Success!");
+        console.log(data.title);
+      },
+      error: function(xhr, status, err, a) {
+        console.log("Error: " + err + " -- Status: " + status);
+      }
+    });
+
   });
 
 
@@ -118,9 +151,7 @@ $('document').ready(function(){
   });
 
   function postAPI(path) {
-    // API url is passed from environment variable to front end via local
-    var apiUrl = $( "#apiUrl" ).html();
-    //var apiUrl = "http://localhost:8000/blog/posts/"
+
     // Grab post data from the form:
     var slug = slugify($( "#new-post-slug" ).val().substr(0, 1024));
     if (slug === "") {
@@ -147,7 +178,6 @@ $('document').ready(function(){
       contentType: "application/json",
       url: apiUrl + path,
       data: JSON.stringify(apiData),
-      //data: apiData,
       success: function(data) {
         try {
           console.log(data);

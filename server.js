@@ -3,11 +3,16 @@ const env = process.env.ENV;
 const blogName = process.env.BLOGNAME;
 // init project
 const express = require("express");
+const bodyParser = require('body-parser');
 const app = express();
+app.use(bodyParser.json());
+
 const hbs = require("hbs");
 const http = require("http");
 //const request = require("request");
-const rp = require('request-promise');
+const rp = require("request-promise");
+
+const mediumToMarkdown = require("medium-to-markdown");
 
 const hexcolors = require("./helpers/hexcolors");
 const dates = require("./helpers/dates");
@@ -20,6 +25,12 @@ const apiOptions = {
   path: "/blog"
 };
 
+const clientOptions = {
+  host: process.env.CLIENT_URL,
+  port: process.env.CLIENT_PORT,
+  path: ""
+}
+
 if (process.env.ENV == "DEV"){
   console.log("ENV IS: " + process.env.ENV);
 } else {
@@ -30,6 +41,7 @@ if (process.env.ENV == "DEV"){
 }
 
 const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
+const clientUrl = "" + clientOptions.host + ":" + clientOptions.port + clientOptions.path;
 
 
 // http://expressjs.com/en/starter/static-files.html
@@ -176,11 +188,26 @@ app.get("/new/", function(req, res) {
     mainTitle: blogName,
     pageTitle: "New",
     apiUrl: apiUrl,
+    clientUrl: clientUrl,
     hrBorderColors: hexcolors.hrBorderColor()
   }
 
   res.render("new");
 })
+
+app.post("/import", function(req, res) {
+  console.log(req.body);
+  mediumToMarkdown.convertFromUrl(req.body.url)
+  .then(function (markdown) {
+    var title = markdown.slice(0, markdown.indexOf("\n"));
+    var body = markdown.slice(markdown.indexOf("\n") + 1, markdown.length);
+    res.send({
+      title: title,
+      body: body
+    });
+  });
+
+});
 
 // listen for requests :)
 var listener = app.listen(port, function () {
