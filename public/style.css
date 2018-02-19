@@ -92,9 +92,11 @@ div.post-body {
   margin: 0;
 }
 
-div.post-body > p {
-  margin: 0 0 1em;
+/* Image caption */
+.post-body h5 {
+  text-align: center;
 }
+
 
 /* Post Preview */
 p.read-more {
