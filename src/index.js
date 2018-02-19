@@ -1,7 +1,4 @@
 const $ = require("jquery");
-require("./dates.js");
-require("./importPost.js");
-require("./slug.js");
 
 $('document').ready(function(){
 
@@ -9,11 +6,77 @@ $('document').ready(function(){
   var apiUrl = $( "#apiUrl" ).html();
   var clientUrl = $( "#clientUrl" ).html();
 
+
+  // Import Post:
+  $( "button#import-post-button" ).click(function() {
+    $( "#import-post-form").show();
+  });
+
+  $( "button#submit-import-post" ).click(function(event) {
+    event.preventDefault();
+
+    importData = {
+      url: $( "#import-post-url").val(),
+      source: $( "#import-post-source :selected" ).val()
+    }
+    var path = "/import";
+
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      contentType: "application/json",
+      url: clientUrl + path,
+      data: JSON.stringify(importData),
+      success: function(data) {
+        console.log("Success!");
+        $( "#new-post-title" ).val(data.title);
+        $( "#new-post-body").html(data.body);
+        fillSlug(data.title);
+        $('html, body').animate({
+            scrollTop: $("#new-post-title").prev().offset().top
+        }, 500);
+
+      },
+      error: function(xhr, status, err, a) {
+        console.log("Error: " + err + " -- Status: " + status);
+      }
+    });
+
+  });
+
+
   // New Post:
 
+  // Autofill date:
+  var d = new Date;
+  $( "#new-post-date").val(formatDate(d));
+
+  var autofillSlug = true;
+
+  function formatDate(d) {
+    return(
+    d.getFullYear() + "-" + parseInt(d.getMonth() + 1) + "-" + d.getDate()
+    + " " + d.getHours() + ":" + d.getMinutes())
+  }
 
 
+  // Generate slug
+  // From: https://gist.github.com/mathewbyrne/1280286
+  // Shortened to 1024 characters if if longer (it shouldn't be because the title is also 1024)
+  function slugify(text) {
+    slug = text.toString().toLowerCase()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
+    slug = slug.substr(0, 1024);
+    return slug;
+  }
 
+  function fillSlug(text) {
+    $(  "#new-post-slug" ).val(slugify(text.substr(0, 1024)));
+  }
 
   // Auto populate slug on writing in title field
   $( "#new-post-title" ).keyup(function() {
