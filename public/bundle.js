@@ -100,6 +100,11 @@ $('document').ready(function(){
         console.log("Success!");
         $( "#new-post-title" ).val(data.title);
         $( "#new-post-body").html(data.body);
+        fillSlug(data.title);
+        $('html, body').animate({
+            scrollTop: $("#new-post-title").prev().offset().top
+        }, 500);
+
       },
       error: function(xhr, status, err, a) {
         console.log("Error: " + err + " -- Status: " + status);
