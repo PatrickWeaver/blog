@@ -98,7 +98,8 @@ $('document').ready(function(){
       data: JSON.stringify(importData),
       success: function(data) {
         console.log("Success!");
-        console.log(data.title);
+        $( "#new-post-title" ).val(data.title);
+        $( "#new-post-body").html(data.body);
       },
       error: function(xhr, status, err, a) {
         console.log("Error: " + err + " -- Status: " + status);
