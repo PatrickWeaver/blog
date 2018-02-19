@@ -12,7 +12,10 @@ const http = require("http");
 //const request = require("request");
 const rp = require("request-promise");
 
+// Conversion Tools:
 const mediumToMarkdown = require("medium-to-markdown");
+var TurndownService = require('turndown')
+var turndownService = new TurndownService()
 
 const hexcolors = require("./helpers/hexcolors");
 const dates = require("./helpers/dates");
@@ -196,16 +199,49 @@ app.get("/new/", function(req, res) {
 })
 
 app.post("/import", function(req, res) {
-  console.log(req.body);
-  mediumToMarkdown.convertFromUrl(req.body.url)
-  .then(function (markdown) {
-    var title = markdown.slice(0, markdown.indexOf("\n"));
-    var body = markdown.slice(markdown.indexOf("\n") + 1, markdown.length);
-    res.send({
-      title: title,
-      body: body
-    });
-  });
+  var e = false;
+  if (req.body) {
+    if (req.body.url){
+      if (req.body.source === "medium") {
+        mediumToMarkdown.convertFromUrl(req.body.url)
+        .then(function (markdown) {
+          var title = markdown.slice(0, markdown.indexOf("\n"));
+          var body = markdown.slice(markdown.indexOf("\n") + 1, markdown.length);
+          res.send({
+            title: title,
+            body: body
+          });
+        });
+      } else if (req.body.source === "html") {
+        var options = {
+          url: req.body.url
+        }
+        rp(options)
+        .then(function (data) {
+          var body = turndownService.turndown(data)
+          res.send({
+            title: "",
+            body: body
+          })
+        })
+        .catch(function (err) {
+          console.log(err);
+          return err;
+        });
+      } else {
+        e = true;
+      }
+    } else {
+      e = true;
+    }
+  } else {
+    e = true;
+  }
+
+  if (e) {
+    res.send("Error");
+  }
+
 
 });
 
