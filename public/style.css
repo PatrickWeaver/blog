@@ -83,6 +83,11 @@ div.post-body {
   margin: 0 0 1em;
 }
 
+.post-body img {
+  max-width: 700px;
+  margin: .5em 50px;
+}
+
 .post-preview p {
   margin: 0;
 }
