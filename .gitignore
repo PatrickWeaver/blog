@@ -38,3 +38,7 @@ jspm_packages
 
 # gulp
 gulpfile.js
+
+secret.txt
+
+public/bundle.js

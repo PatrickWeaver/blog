@@ -1,0 +1,11 @@
+<ul id="pagination">
+  <li class="page-number">Page:</li>
+  {{#each pagination}}
+    <li class="page-number">
+      {{#if this.isCurrentPage}}
+        {{ this.pageNumber }}
+      {{else}}
+        <a href="/?page={{ this.pageNumber }}">{{ this.pageNumber }}</a>
+      {{/if}}
+  {{/each}}
+</ul>

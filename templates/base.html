@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+
+    <title>Patrick Weaver
+    {% block title %}
+    {% endblock %}
+    </title>
+    {% load bootstrap3 %}
+    {% load staticfiles %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}" />
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script type='text/javascript' src="{% static "/static/script.js" %}">
+    </script>
+    <script type='text/javascript' src="{% static "/static/random_color.js" %}">
+    </script> 
+</head>
+
+<body>
+<div id="container">
+<div id="social-media-links-header" class="social-media-links">
+    <ul>
+        <a href="mailto:hello.patrickw@gmail.com" class="srbc"><li><img class="random_background_color" src="{% static "email-transparent.png" %}"></li></a>
+        <a href="https://twitter.com/patweaver" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "twitter-transparent.png" %}"></li></a>
+        <a href="https://www.facebook.com/patrickweaver" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "facebook-transparent.png" %}"></li></a>
+        <a href="https://plus.google.com/+PatrickWeaverPatrickWeaver/" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "google-plus-transparent.png" %}"></li></a>
+        <a href="http://patrickweaver.tumblr.com/" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "tumblr-transparent.png" %}"></li></a>
+        <a href="http://www.flickr.com/photos/patrickweaver/" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "flickr-transparent.png" %}"></li></a>
+        <a href="https://github.com/PatrickWeaver" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "github-transparent.png" %}"></li></a>
+    </ul>
+</div>
+<div id="base-header">
+    <div id="menu-container">
+        <ul id="menu" class="srbc srhbc-b">
+            {% comment %}
+            <a href="{% url 'gallery.views.home' %}"><li class="home-menu hover_random_background_color">
+                Home
+            </li></a>
+            
+            <a href="{% url 'gallery.views.projects' %}"><li class="projects-menu hover_random_background_color">
+                Projects
+            </li></a>m_hover_border_color_bottom
+            
+            <a href="{% url 'admin:index' %}"><li  class="admin-menu hover_random_background_color">
+                Admin
+            </li></a>
+            {% endcomment %}
+
+            <a href="{% url 'gallery.views.projects' %}"><li class="home-menu random_background_color random_hover_border_color_bottom">
+                Patrick ⁂ Weaver
+            </li></a>
+        </ul>
+    </div>
+</div>
+
+<div id="content">
+    {% block section %}
+
+    {% endblock %}
+
+</div>
+</div>
+<div id="clear">
+</div>
+<div id="social-media-links-footer" class="social-media-links">
+    <ul>
+        <a href="mailto:ppppppppwwwwwwww@gmail.com" class="srbc"><li><img class="random_background_color" src="{% static "email-transparent.png" %}"></li></a>
+        <a href="https://twitter.com/patweaver" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "twitter-transparent.png" %}"></li></a>
+        <a href="https://www.facebook.com/patrickweaver" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "facebook-transparent.png" %}"></li></a>
+        <a href="https://plus.google.com/+PatrickWeaverPatrickWeaver/" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "google-plus-transparent.png" %}"></li></a>
+        <a href="http://patrickweaver.tumblr.com/" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "tumblr-transparent.png" %}"></li></a>
+        <a href="http://www.flickr.com/photos/patrickweaver/" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "flickr-transparent.png" %}"></li></a>
+        <a href="https://github.com/PatrickWeaver" class="srbc"><li class="random_background_color"><img  class="random_background_color" src="{% static "github-transparent.png" %}"></li></a>
+    </ul>
+</div>
+</body>
+</html>

@@ -1,9 +1,8 @@
-<p>
-  {{ list }}
-</p>
-
 <ul id="posts">
   {{#each posts}}
-    <li>{{> postPreview}}</li>
+    {{> postPreview this }}
+    {{#unless @last}}
+      {{> bars hrBorderColors=../hrBorderColors }}
+    {{/unless}}
   {{/each}}
 </ul>
