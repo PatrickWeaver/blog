@@ -3,9 +3,17 @@ const env = process.env.ENV;
 const blogName = process.env.BLOGNAME;
 // init project
 const express = require("express");
-const bodyParser = require('body-parser');
+
 const app = express();
+const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(require('cookie-parser')());
+app.use(require('express-session')({ secret: process.env.AUTH_SECRET, resave: false, saveUninitialized: false }));
+
+var passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 const hbs = require("hbs");
 const http = require("http");
@@ -19,6 +27,8 @@ var turndownService = new TurndownService()
 
 const hexcolors = require("./helpers/hexcolors");
 const dates = require("./helpers/dates");
+
+const auth = require("./helpers/auth")();
 
 const port = 8106;
 
@@ -241,8 +251,16 @@ app.post("/import", function(req, res) {
   if (e) {
     res.send("Error");
   }
+});
 
-
+// Admin
+var adminRouter = require("./routes/admin")
+app.use("/admin", adminRouter);
+app.get("/login", function(req, res) {
+  res.redirect("/admin/login");
+});
+app.get("/logout", function(req, res) {
+  res.redirect("/admin/logout");
 });
 
 // listen for requests :)

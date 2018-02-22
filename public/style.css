@@ -229,6 +229,11 @@ ul#pagination > li.page-number {
   padding: 1em;
 }
 
+/* Login */
+#login-form {
+  margin: 0 0 1em 0;
+}
+
 
 @media (max-width: 800px) {
   #new-post label, #new-post input, #new-post textarea, #new-post button {
