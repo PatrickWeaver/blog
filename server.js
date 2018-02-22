@@ -30,7 +30,8 @@ const dates = require("./helpers/dates");
 
 const auth = require("./helpers/auth")();
 
-const port = 8106;
+//const port = 8106;
+const port = process.env.PORT;
 
 const apiOptions = {
   host: process.env.API_URL,
@@ -44,7 +45,7 @@ const clientOptions = {
   path: ""
 }
 
-if (process.env.ENV == "DEV"){
+if (process.env.ENV == "DEV" || process.env.ENV == "GLITCH"){
   console.log("ENV IS: " + process.env.ENV);
 } else {
   console.log("ENV IS NOT DEV");
@@ -66,7 +67,7 @@ app.set("views", __dirname + "/views");
 // Handlebars Partials:
 hbs.registerPartials(__dirname + '/views/partials');
 
-if (env == "DEV"){
+if (env == "DEV" || env == "GLITCH"){
   app.get("*", function (req, res, next) {
     // Reload partials on root reload to upate.
     hbs.registerPartials(__dirname + '/views/partials');
@@ -170,6 +171,10 @@ app.get("/post/:slug/", function(req, res) {
   .then(function(apiResponse) {
     // This will be unnecessary once the API is returning a post based on a slug query.
     var data = apiResponse.posts_list
+<<<<<<< HEAD
+=======
+    var post;
+>>>>>>> c7b60c68975c7fbfcad405563d111d4d7107a6ea
     if (data) {
       post = data[0];
     } else {
@@ -265,5 +270,5 @@ app.get("/logout", function(req, res) {
 
 // listen for requests :)
 var listener = app.listen(port, function () {
-  console.log('Your app is listening on port ' + listener.address().port + " or " + port);
+  console.log('Your app is listening on port ' + port);
 });
