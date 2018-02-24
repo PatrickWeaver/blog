@@ -24,18 +24,21 @@ module.exports = function() {
         json: true,
         body: body
       }
-      console.log(options.url);
       return rp(options)
       .then(function(data) {
-        console.log(data);
-        var user = {
-          id: data.id,
-          username: data.username,
-          displayName: data.name,
-          emails: [
-            data.email
-          ]
+        if (data.username && data.id){
+          var user = {
+            id: data.id,
+            username: data.username,
+            displayName: data.name,
+            emails: [
+              data.email
+            ]
+          }
+        } else {
+          throw("No user found");
         }
+
         return cb(null, user);
       })
       .catch(function(err) {
