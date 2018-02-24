@@ -30,6 +30,7 @@ router.post('/login',
 
 
 router.get('/login/invalid', function(req, res){
+  console.log("Invalid");
   res.send('<h1>Invalid Login</h1><a href="./">Login</a>');
 });
 
