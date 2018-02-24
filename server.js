@@ -17,18 +17,13 @@ app.use(passport.session());
 
 const hbs = require("hbs");
 const http = require("http");
-//const request = require("request");
-const rp = require("request-promise");
-
-// Conversion Tools:
-const mediumToMarkdown = require("medium-to-markdown");
-var TurndownService = require('turndown')
-var turndownService = new TurndownService()
 
 const hexcolors = require("./helpers/hexcolors");
 const dates = require("./helpers/dates");
 
 const auth = require("./helpers/auth")();
+const api = require("./helpers/api");
+const importPost = require("./helpers/importPost");
 
 //const port = 8106;
 const port = process.env.PORT;
@@ -75,20 +70,7 @@ if (env == "DEV" || env == "GLITCH"){
   });
 }
 
-function apiRequest(path, query) {
-  var options = {
-    url: apiUrl + path,
-    qs: query
-  }
-  return rp(options)
-  .then(function (apiResponse) {
-    return JSON.parse(apiResponse);
-  })
-  .catch(function (err) {
-    console.log(err);
-    return err;
-  });
-}
+
 
 function formatPost(post) {
   post.formatted_date = dates.formatDate(post.post_date);
@@ -132,7 +114,7 @@ app.get('/', function(req, res) {
   }
 
   // ask the API for list of posts
-  apiRequest("/posts", query)
+  api.apiRequest(apiUrl + "/posts", query)
   .then(function(apiResponse) {
     if (!apiResponse.response && !apiResponse.posts_list) {
       throw "No Response From API"
@@ -167,14 +149,11 @@ app.get("/post/:slug/", function(req, res) {
   var query = {
     slug: req.params.slug
   }
-  apiRequest("/post", query)
+  api.apiRequest(apiUrl + "/post", query)
   .then(function(apiResponse) {
     // This will be unnecessary once the API is returning a post based on a slug query.
     var data = apiResponse.posts_list
-<<<<<<< HEAD
-=======
     var post;
->>>>>>> c7b60c68975c7fbfcad405563d111d4d7107a6ea
     if (data) {
       post = data[0];
     } else {
@@ -211,50 +190,42 @@ app.get("/new/", function(req, res) {
   }
 
   res.render("new");
-})
+});
 
 app.post("/import", function(req, res) {
+  console.log("Starting import");
   var e = false;
   if (req.body) {
-    if (req.body.url){
-      if (req.body.source === "medium") {
-        mediumToMarkdown.convertFromUrl(req.body.url)
-        .then(function (markdown) {
-          var title = markdown.slice(0, markdown.indexOf("\n"));
-          var body = markdown.slice(markdown.indexOf("\n") + 1, markdown.length);
+    if (req.body.url) {
+      importPost.importPost(req.body.source, req.body.url)
+      .then(function(importedPost) {
+          console.log("Title");
+          console.log(importedPost.title);
+          console.log("Body");
+          console.log(importedPost.body);
           res.send({
-            title: title,
-            body: body
+            title: importedPost.title,
+            body: importedPost.body
           });
-        });
-      } else if (req.body.source === "html") {
-        var options = {
-          url: req.body.url
         }
-        rp(options)
-        .then(function (data) {
-          var body = turndownService.turndown(data)
-          res.send({
-            title: "",
-            body: body
-          })
-        })
-        .catch(function (err) {
-          console.log(err);
-          return err;
-        });
-      } else {
-        e = true;
-      }
+      )
+      .catch(function(err) {
+          console.log("No return from import function");
+          e = true;
+        }
+      )
+
     } else {
+      console.log("No URL");
       e = true;
     }
   } else {
+    console.log("No Body");
     e = true;
   }
 
   if (e) {
-    res.send("Error");
+    res.send({title: "Error: " + e});
   }
 });
 

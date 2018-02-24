@@ -33,9 +33,5 @@ PW Blog
 ```
 npm install
 
-API_URL=http://localhost API_PORT=8000 BLOGNAME="Patrick Weaver Blog"
-PORT=8106
-AUTH_SECRET="abc123"
-ADMIN_PASSWORD="pw"
-ADMIN_EMAIL="admin@example.com" ENV=DEV npm start
+npm run build && API_URL=http://localhost API_PORT=8000 CLIENT_URL=http://localhost CLIENT_PORT=8106 BLOGNAME="Patrick Weaver Blog" PORT=8106 AUTH_SECRET="abc123" ADMIN_PASSWORD="pw" ADMIN_EMAIL="admin@example.com" ENV=DEV npm start
 ```
