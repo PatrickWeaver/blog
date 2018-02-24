@@ -12,60 +12,34 @@ const apiOptions = {
 
 module.exports = function() {
 
-  var records = [
-    {
-      id: 1,
-      username: "admin",
-      password: process.env.ADMIN_PASSWORD,
-      displayName: 'Admin',
-      emails: [
-        {
-          value: process.env.ADMIN_EMAIL
-        }
-      ]
-    }
-  ];
-
-  var findById = function(id, cb) {
-    process.nextTick(function() {
-      var idx = id - 1;
-      if (records[idx]) {
-        cb(null, records[idx]);
-      } else {
-        cb(new Error('User ' + id + ' does not exist'));
-      }
-    });
-  }
-
-
   var findByUsername = function(username, password, cb) {
-    console.log(username);
     process.nextTick(function() {
       var body = {
         username: username,
         password: password
       }
       var options = {
-        url: apiOptions.host + ":" + apiOptions.port + "/people"
+        url: apiOptions.host + ":" + apiOptions.port + "/people/authenticate/",
+        method: "POST",
+        json: true,
+        body: body
       }
+      console.log(options.url);
       return rp(options)
       .then(function(data) {
-        console.log("Returned User DataS");
-        var user_data = JSON.parse(data)[0];
-        console.log(user_data);
+        console.log(data);
         var user = {
-          id: 1,
-          username: user_data.username,
-          displayName: user_data.name,
+          id: data.id,
+          username: data.username,
+          displayName: data.name,
           emails: [
-            user_data.email
+            data.email
           ]
         }
-        console.log("**")
-        console.log(user);
         return cb(null, user);
       })
       .catch(function(err) {
+        console.log(err);
         return cb(null, null);
       });
     });
