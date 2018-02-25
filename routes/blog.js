@@ -27,6 +27,10 @@ const paginate = require("../helpers/pagination").paginate;
 const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + "/" + apiOptions.version + apiOptions.path;
 const clientUrl = "" + clientOptions.host + ":" + clientOptions.port + clientOptions.path;
 
+var templateData  = {
+  mainTitle: blogName
+}
+
 
 // Get list of posts, paginated with ?page=2
 router.get('/', function(req, res) {
@@ -62,15 +66,15 @@ router.get('/', function(req, res) {
     // and which current page not to link to.
     var pagination = paginate(apiResponse.total_posts, apiResponse.page);
 
-    res.locals = {
+    newTemplateData = {
         index: true,
         pagination: pagination,
-        mainTitle: blogName,
         pageTitle: false,
         posts: posts,
         hrBorderColors: hexcolors.hrBorderColor()
     }
-    res.render("index");
+    thisTemplateData = Object.assign({}, templateData, newTemplateData);
+    res.render("index", thisTemplateData);
   })
   .catch(function(err) {
     res.send(String(err));
@@ -89,22 +93,17 @@ router.get("/post/:slug/", function(req, res) {
   .then(function(apiResponse) {
     // This will be unnecessary once the API is returning a post based on a slug query.
     var data = apiResponse.posts_list
-    var post;
-    if (data) {
-      post = data[0];
-    } else {
-      post = false;
-    }
+    var post = data ? data[0] : false;
+
     if (post) {
       post = formatPost(post);
-      res.locals = {
-          mainTitle: blogName,
+      newTemplateData = {
           pageTitle: post.title,
           post: post,
           hrBorderColors: hexcolors.hrBorderColor()
       }
-
-      res.render("post");
+      thisTemplateData = Object.assign({}, templateData, newTemplateData);
+      res.render("post", thisTemplateData);
     } else {
       res.send("No post found.");
     }
@@ -117,19 +116,21 @@ router.get("/post/:slug/", function(req, res) {
 // New post form
 router.get("/new/", function(req, res) {
   if (req.user && req.user.type === "admin"){
-    res.locals = {
-      mainTitle: blogName,
+    newTemplateData = {
       pageTitle: "New",
       apiUrl: apiUrl,
       clientUrl: clientUrl,
       hrBorderColors: hexcolors.hrBorderColor()
     }
-    res.render("new");
+    thisTemplateData = Object.assign({}, templateData, newTemplateData);
+    res.render("new", thisTemplateData);
   } else {
     res.redirect("/login");
   }
 
 });
+
+// Frontend Api:
 
 router.post("/new/", function(req, res) {
   if (req.user && req.user.type === "admin") {
@@ -189,12 +190,6 @@ router.post("/import", function(req, res) {
     res.send({title: "Error: " + e});
   }
 });
-
-
-
-
-
-
 
 
 module.exports = router

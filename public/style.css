@@ -73,7 +73,7 @@ div.post-body {
   margin: .5em 0 2em;
 }
 
-.post-body p, p.preview, .post-body li {
+.post-body p, p.preview , .post-body li {
   line-height: 150%;
   font-size: 110%;
   font-family: Georgia, serif;
@@ -187,7 +187,7 @@ ul#pagination > li.page-number {
 
 #new-post #slug-fill ul li button {
   font-size: 100%;
-  padding: .1em .25em;
+  padding: .5em .5em;
 }
 
 
@@ -231,6 +231,13 @@ ul#pagination > li.page-number {
   background-color: #FFF;
   text-align: center;
   padding: 1em;
+}
+
+#import-post-button {
+  padding: .5em;
+  margin: 1em 0 0;
+  cursor: pointer;
+  font-size: 70%;
 }
 
 /* Login */
