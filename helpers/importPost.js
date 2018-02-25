@@ -43,49 +43,6 @@ function importPost(source, url) {
   } else {
     return (false);
   }
-
-
-
-
-  /*
-  return new Promise(function(resolve, reject) {
-    var post = {title: "request didn't return", "body": "sf"};
-    if (source === "medium") {
-      mediumToMarkdown.convertFromUrl(url)
-      .then(function (markdown) {
-
-      });
-    } else if (source === "html") {
-
-
-      rp(options)
-      .then(function (data) {
-        console.log("resolved first promise");
-        var body = turndownService.turndown(data)
-        post = {
-          title: "",
-          body: body
-        }
-        resolve(post);
-      })
-      .catch(function (err) {
-        console.log(err);
-        // This should return the err but the server isn't set up to figure that out.
-        reject(false);
-      });
-
-      post = {
-        title: "test",
-        body: "body-test"
-      }
-      resolve(post);
-
-
-    } else {
-      reject(false);
-    }
-  });
-  */
 }
 
 module.exports = {

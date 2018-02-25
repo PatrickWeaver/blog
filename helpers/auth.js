@@ -7,6 +7,7 @@ const request = require("request");
 const apiOptions = {
   host: process.env.API_URL,
   port: process.env.API_PORT,
+  version: "v" + process.env.API_VERSION,
   path: "/blog"
 };
 
@@ -21,7 +22,7 @@ module.exports = function() {
       }
       console.log(apiOptions.host);
       var options = {
-        url: apiOptions.host + ":" + apiOptions.port + "/people/authenticate/",
+        url: apiOptions.host + ":" + apiOptions.port + "/" + apiOptions.version + "/people/authenticate/",
         method: "POST",
         json: true,
         body: body

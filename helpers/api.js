@@ -5,12 +5,13 @@ function apiRequest(url, query) {
     url: url,
     qs: query
   }
+  console.log(options.url);
   return rp(options)
   .then(function (apiResponse) {
     return JSON.parse(apiResponse);
   })
   .catch(function (err) {
-    console.log(err);
+    //console.log(err);
     return err;
   });
 }

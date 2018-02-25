@@ -31,6 +31,7 @@ const port = process.env.PORT;
 const apiOptions = {
   host: process.env.API_URL,
   port: process.env.API_PORT,
+  version: "v" + process.env.API_VERSION,
   path: "/blog"
 };
 
@@ -49,7 +50,7 @@ if (process.env.ENV == "DEV" || process.env.ENV == "GLITCH"){
   }
 }
 
-const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + apiOptions.path;
+const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + "/" + apiOptions.version + apiOptions.path;
 const clientUrl = "" + clientOptions.host + ":" + clientOptions.port + clientOptions.path;
 
 
