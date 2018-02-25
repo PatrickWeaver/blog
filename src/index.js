@@ -2,8 +2,9 @@ const $ = require("jquery");
 
 $('document').ready(function(){
 
-  // API url and Client url are passed from environment variable to front end via local
-  var apiUrl = $( "#apiUrl" ).html();
+  var originalSlug = $( "#original-slug" ).text();
+
+  //Client url is passed from environment variable to front end via local
   var clientUrl = $( "#clientUrl" ).html();
 
   // * * * * * * * * * *
@@ -51,7 +52,7 @@ $('document').ready(function(){
 
   // Autofill date:
   var d = new Date;
-  $( "#new-post-date").val(formatDate(d));
+  $( "#new-post #post-date").val(formatDate(d));
 
   var autofillSlug = true;
 
@@ -77,43 +78,47 @@ $('document').ready(function(){
   }
 
   function fillSlug(text) {
-    $(  "#new-post-slug" ).val(slugify(text.substr(0, 1024)));
+    $(  "#post-form #post-slug" ).val(slugify(text.substr(0, 1024)));
   }
 
   // Auto populate slug on writing in title field
-  $( "#new-post-title" ).keyup(function() {
+  $( "#post-form #post-title" ).keyup(function() {
     if ( autofillSlug ) {
       fillSlug( $( this ).val() );
     }
     $( this ).val( $( this ).val().substr(0, 1024));
   });
 
-  $( "#new-post-slug" ).focusin(function() {
+  $( "#post-form #post-slug" ).focusin(function() {
     autofillSlug = false;
   });
 
-  $( "#new-post-slug" ).focusout(function() {
+  $( "#post-form #post-slug" ).focusout(function() {
     fillSlug( $( this ).val() );
-    if ( $( this ).val() === slugify( $( "#new-post-title" ).val().substr(0, 1024)) ) {
+    if ( $( this ).val() === slugify( $( "#post-form #post-title" ).val().substr(0, 1024)) ) {
       autofillSlug = true;
     }
   });
 
-  $( "#new-post-body" ).keyup(function() {
+  $( "#post-form #post-body" ).keyup(function() {
     if (
-      $( "#new-post-title" ).val() === ""
+      $( "#post-form #post-title" ).val() === ""
       &&
-      $( "#new-post-slug" ).val() === ""
+      $( "#post-form #post-slug" ).val() === ""
     ) {
       fillSlug( $( this ).val() );
     }
   });
 
-  $( "#new-post-form > .submit").click(function(event) {
+  $( "#post-form > .submit").click(function(event) {
     event.preventDefault();
-    console.log($("#new-post-body").val());
-    if ( $( "#new-post-body" ).val() != "") {
-      sendNewPost("/new/");
+    if ( $( "#post-form #post-body" ).val() != "") {
+      var parentId = $( this ).closest(".post-form-parent").attr("id");
+      if (parentId === "edit-post") {
+        sendPost("/post/" + originalSlug + "/edit/" )
+      } else if (parentId === "new-post") {
+        sendPost("/new/");
+      }
     } else {
       alert("Post must have body");
     }
@@ -140,14 +145,14 @@ $('document').ready(function(){
 
     $( "body" ).on("click", ".fill-slug-from", function(event) {
       event.preventDefault();
-      slug = slugify($( "#new-post-" + $( this ).html().toLowerCase() ).val().substr(0, 1024));
-      $( "#new-post-slug" ).val(slug);
+      slug = slugify($( "#post-form #post-" + $( this ).html().toLowerCase() ).val().substr(0, 1024));
+      $( "#post-form #post-slug" ).val(slug);
       $( "#slug-fill" ).hide();
     });
 
 
     $('html, body').animate({
-        scrollTop: $("#new-post-slug").prev().offset().top
+        scrollTop: $("#post-form #post-slug").prev().offset().top
     }, 500);
   }
 
@@ -158,10 +163,10 @@ $('document').ready(function(){
     $( "#post-failure" ).hide();
   });
 
-  function sendNewPost(path) {
+  function sendPost(path) {
 
     // Grab post data from the form:
-    var slug = slugify($( "#new-post-slug" ).val().substr(0, 1024));
+    var slug = slugify($( "#post-form #post-slug" ).val().substr(0, 1024));
     if (slug === "") {
       fillSlugFrom();
       return;
@@ -169,11 +174,11 @@ $('document').ready(function(){
 
     // Collect into postData object
     var postData = {
-      title: $( "#new-post-title" ).val().substr(0, 1024),
+      title: $( "#post-form #post-title" ).val().substr(0, 1024),
       slug: slug,
-      summary: $( "#new-post-summary" ).val(),
-      post_date: $( "#new-post-date" ).val(),
-      body: $( "#new-post-body" ).val()
+      summary: $( "#post-form #post-summary" ).val(),
+      post_date: $( "#post-form #post-date" ).val(),
+      body: $( "#post-form #post-body" ).val()
     }
 
     $( "#post-status" ).show();
@@ -213,5 +218,32 @@ $('document').ready(function(){
       }, 500);
     }
   }
+
+  $( ".delete-post").click(function() {
+    $.ajax({
+      type: "GET",
+      url: clientUrl + "/post/" + originalSlug + "/delete/",
+      success: function(data) {
+        try {
+          console.log(data);
+          if (data[0].success) {
+            setTimeout(function() {
+              $( "#post-success" ).show();
+              $( "#post-loading" ).hide();
+            }, 500);
+          } else {
+            throw "Not posted";
+          }
+        }
+        catch (err) {
+          sendPostError(err);
+        }
+      },
+      error: function(xhr, status, err, a) {
+        console.log("Error: " + err + " -- Status: " + status);
+        sendPostError(err);
+      }
+    });
+  });
 
 });

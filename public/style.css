@@ -142,6 +142,26 @@ ul#pagination > li.page-number {
   display: inline;
 }
 
+/* Post Admin */
+
+#post-admin {
+}
+
+#post-admin h3 {
+  margin: 0;
+}
+
+#post-admin ul {
+  list-style: none;
+  margin: 1em 0;
+  padding: 0;
+}
+
+#post-admin li {
+  padding: 0 1em 0 0;
+  display: inline-block;
+}
+
 
 /* New Post */
 
@@ -149,86 +169,86 @@ ul#pagination > li.page-number {
   display: none;
 }
 
-#new-post label {
+#post-form label, #import-post-form label {
   display: block;
   margin-top: 1em;
   font-size: 115%;
 }
 
-#new-post input, #new-post textarea {
+#post-form input, #post-form textarea {
   display: block;
   margin: 0 0 .5em 0;
   width: 100%;
   padding: .25em .25em;
 }
-#new-post input#new-post-title {
+#post-form input#post-title {
   font-weight: bold;
 }
 
-#new-post input#new-post-slug {
+#post-form input#post-slug {
   font-family: "Lucida Console", Monaco, monospace;
 }
 
-#new-post input {
+#post-form input, #import-post-form input {
   font-size: 130%;
   line-height: 130%;
 }
 
-#new-post #slug-fill {
+#post-form #slug-fill {
   display: none;
   border: 1px solid red;
   padding: .5em;
 }
 
-#new-post #slug-fill h6 {
+#post-form #slug-fill h6 {
   margin: 0;
   display: inline-block;
 }
 
-#new-post #slug-fill h5 {
+#post-form #slug-fill h5 {
   margin: 0;
 }
 
-#new-post #slug-fill ul {
+#post-form #slug-fill ul {
   display: inline-block;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-#new-post #slug-fill ul li {
+#post-form #slug-fill ul li {
   padding: .25em;
   text-transform:capitalize;
   display: inline-block;
 }
 
-#new-post #slug-fill ul li button {
+#post-form #slug-fill ul li button {
   font-size: 100%;
   padding: .5em .5em;
 }
 
 
 
-#new-post textarea, #new-post button.submit {
+#post-form textarea, #post-form button.submit {
   font-size: 150%;
   line-height: 150%;
 }
 
-#new-post textarea#new-post-summary {
+#post-form textarea#post-summary {
   font-family: Ariel, sans-serif;
 }
 
-#new-post textarea#new-post-body {
+#post-form textarea#post-body {
   height: 14em;
   font-family: georgia, serif;
 }
 
-#new-post button.submit {
+#post-form button.submit {
   margin: .5em 0 1em;
   cursor: pointer;
 }
 
-#new-post #post-status {
+.post-form-parent #post-status {
   display: none;
   position: fixed;
   top: 0;
@@ -238,7 +258,7 @@ ul#pagination > li.page-number {
   background-color: rgba(233, 233, 233, 0.8);
 }
 
-#new-post #post-status > div{
+.post-form-parent #post-status > div{
   display: none;
   position: fixed;
   top: 0;
@@ -250,9 +270,9 @@ ul#pagination > li.page-number {
   padding: 1em;
 }
 
-#import-post-button {
+#import-post-button, #submit-import-post {
   padding: .5em;
-  margin: 1em 0 0;
+  margin: 1em 0 1em;
   cursor: pointer;
   font-size: 70%;
 }

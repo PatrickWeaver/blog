@@ -60,13 +60,13 @@ router.get('/', function(req, res) {
     // and which current page not to link to.
     var pagination = paginate(apiResponse.total_posts, apiResponse.page);
 
-    newTemplateData = {
+    var newTemplateData = {
         index: true,
         pagination: pagination,
         pageTitle: false,
         posts: posts
     }
-    thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
+    var thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
     res.render("index", thisTemplateData);
   })
   .catch(function(err) {
@@ -74,45 +74,18 @@ router.get('/', function(req, res) {
   });
 });
 
-// Get a single post with slug
-router.get("/post/:slug/", function(req, res) {
-  var query = {
-    slug: req.params.slug
-  }
-  api.apiRequest({
-    url: apiUrl + "/post",
-    query: query
-  })
-  .then(function(apiResponse) {
-    // This will be unnecessary once the API is returning a post based on a slug query.
-    var data = apiResponse.posts_list
-    var post = data ? data[0] : false;
+var postRouter = require("./post");
+router.use("/post", postRouter);
 
-    if (post) {
-      post = formatPost(post);
-      newTemplateData = {
-          pageTitle: post.title,
-          post: post
-      }
-      thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
-      res.render("post", thisTemplateData);
-    } else {
-      res.send("No post found.");
-    }
-  })
-  .catch(function(err) {
-    res.send(String(err));
-  });
-});
 
 // New post form
 router.get("/new/", function(req, res) {
   if (req.user && req.user.type === "admin"){
-    newTemplateData = {
+    var newTemplateData = {
       pageTitle: "New",
       clientUrl: clientUrl
     }
-    thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
+    var thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
     res.render("new", thisTemplateData);
   } else {
     res.redirect("/login");

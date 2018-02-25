@@ -60,9 +60,6 @@ app.get("/logout", function(req, res) {
 // Blog
 var blogRouter = require("./routes/blog");
 app.use("/", blogRouter);
-app.get("/post", function(req, res) {
-  res.redirect("/");
-});
 
 // listen for requests :)
 var listener = app.listen(port, function () {

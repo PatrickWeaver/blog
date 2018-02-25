@@ -1,0 +1,11 @@
+{{# if admin }}
+  <div id="edit-post" class="post-form-parent">
+    <div id="post-admin">
+      <ul>
+        <li><a href="/">⚠️ Cancel</a></li>
+      </ul>
+    </div>
+    {{> postForm }}
+    {{> postStatus }}
+  </div>
+{{/ if }}

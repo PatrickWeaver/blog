@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
 router.get('/login',
   function(req, res){
     if (!req.user){
-      thisTemplateData = Object.assign({}, templateData(req.user));
+      var thisTemplateData = Object.assign({}, templateData(req.user));
       res.render('login', thisTemplateData);
     } else {
       res.redirect(req.baseUrl + '/profile');
@@ -54,7 +54,7 @@ router.get('/logout', function(req, res){
 router.get('/profile',
   require('connect-ensure-login').ensureLoggedIn('login'),
   function(req, res){
-    thisTemplateData = Object.assign({}, templateData(req.user));
+    var thisTemplateData = Object.assign({}, templateData(req.user));
     res.render('profile', thisTemplateData);
   }
 );
