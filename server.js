@@ -196,11 +196,11 @@ app.get("/new/", function(req, res) {
 app.post("/new/", function(req, res) {
   if (req.user && req.user.type === "admin") {
     requestBody = req.body;
-    requestBody.apiKey = req.user.apiKey;
+    requestBody.api_key = req.user.apiKey;
     api.apiRequest({
       url: apiUrl + "/posts/new/",
       method: "POST",
-      body: req.body,
+      body: requestBody,
     })
     .then(function(apiResponse) {
       res.send(apiResponse);
