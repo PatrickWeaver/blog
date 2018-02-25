@@ -1,7 +1,18 @@
+const blogName = process.env.BLOGNAME;
+
 var express = require("express");
 var router = express.Router();
 var passport = require('passport');
-var templateData = {};
+var templateData = {
+  mainTitle: blogName
+};
+
+const hexcolors = require("../helpers/hexcolors");
+
+function getColors(td) {
+  td.hrBorderColors = hexcolors.hrBorderColor();
+  return td;
+}
 
 router.get('/', function(req, res) {
   if (req.user) {
@@ -14,7 +25,8 @@ router.get('/', function(req, res) {
 router.get('/login',
   function(req, res){
     if (!req.user){
-      res.render('admin/login', templateData);
+      templateData = getColors(templateData);
+      res.render('login', templateData);
     } else {
       res.redirect(req.baseUrl + '/profile');
     }
@@ -44,8 +56,9 @@ router.get('/logout', function(req, res){
 router.get('/profile',
   require('connect-ensure-login').ensureLoggedIn('login'),
   function(req, res){
+    templateData = getColors(templateData);
     templateData.user = req.user;
-    res.render('admin/profile', templateData);
+    res.render('profile', templateData);
   }
 );
 
