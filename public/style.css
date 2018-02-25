@@ -4,8 +4,12 @@
 
 body {
   font-family: arial, sans-serif;
-  margin: 1em 4%;
+  margin: 0;
   font-size: 130%;
+}
+
+#wrapper {
+  margin: 1em 4%;
 }
 
 #container {
@@ -37,6 +41,19 @@ button:hover, button:active {
 }
 
 /* Layout */
+
+#user {
+  width: 100%;
+  text-align: right;
+  color: white;
+  background-color: black;
+  font-size: 60%;
+  padding: .25em;
+}
+
+#user a, #user a:hover, #user:active {
+  color: #8FBFFF;
+}
 
 #new-link {
   position: absolute;

@@ -1,5 +1,3 @@
-const blogName = process.env.BLOGNAME;
-
 const port = process.env.PORT;
 
 const apiOptions = {
@@ -20,17 +18,13 @@ var router = express.Router();
 
 const api = require("../helpers/api");
 const importPost = require("../helpers/importPost").importPost;
-const hexcolors = require("../helpers/hexcolors");
+
 const formatPost = require("../helpers/formatPost").formatPost;
 const paginate = require("../helpers/pagination").paginate;
+const templateData = require("../helpers/templateData").populate;
 
 const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + "/" + apiOptions.version + apiOptions.path;
 const clientUrl = "" + clientOptions.host + ":" + clientOptions.port + clientOptions.path;
-
-var templateData  = {
-  mainTitle: blogName
-}
-
 
 // Get list of posts, paginated with ?page=2
 router.get('/', function(req, res) {
@@ -70,10 +64,9 @@ router.get('/', function(req, res) {
         index: true,
         pagination: pagination,
         pageTitle: false,
-        posts: posts,
-        hrBorderColors: hexcolors.hrBorderColor()
+        posts: posts
     }
-    thisTemplateData = Object.assign({}, templateData, newTemplateData);
+    thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
     res.render("index", thisTemplateData);
   })
   .catch(function(err) {
