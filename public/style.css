@@ -73,7 +73,7 @@ div.post-body {
   margin: .5em 0 2em;
 }
 
-.post-body p, .post-preview p, .post-body li {
+.post-body p, p.preview, .post-body li {
   line-height: 150%;
   font-size: 110%;
   font-family: Georgia, serif;
@@ -92,7 +92,8 @@ div.post-body {
   margin: 0;
 }
 
-.post-preview p.summary {
+.summary {
+  font-family: arial, sans-serif;
 }
 
 /* Image caption */
