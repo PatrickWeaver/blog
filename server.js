@@ -19,11 +19,12 @@ const hbs = require("hbs");
 const http = require("http");
 
 const hexcolors = require("./helpers/hexcolors");
-const dates = require("./helpers/dates");
+
 
 const auth = require("./helpers/auth")();
 const api = require("./helpers/api");
-const importPost = require("./helpers/importPost");
+const importPost = require("./helpers/importPost").importPost;
+const formatPost = require("./helpers/formatPost").formatPost;
 
 //const port = 8106;
 const port = process.env.PORT;
@@ -71,17 +72,6 @@ if (env == "DEV" || env == "GLITCH"){
   });
 }
 
-
-
-function formatPost(post) {
-  post.formatted_date = dates.formatDate(post.post_date);
-  post.show_read_more = true;
-  if (post.full_post_in_preview && post.summary === "") {
-    post.show_read_more = false;
-  }
-  return post;
-}
-
 function paginate(totalPosts, currentPage) {
   var pages = Math.ceil(parseInt(totalPosts) / 5);
 
@@ -115,7 +105,11 @@ app.get('/', function(req, res) {
   }
 
   // ask the API for list of posts
-  api.apiRequest(apiUrl + "/posts", query)
+  api.apiRequest({
+      url: apiUrl + "/posts",
+      query: query
+  })
+  //apiUrl + "/posts", query)
   .then(function(apiResponse) {
     if (!apiResponse.response && !apiResponse.posts_list) {
       throw "No Response From API"
@@ -150,7 +144,10 @@ app.get("/post/:slug/", function(req, res) {
   var query = {
     slug: req.params.slug
   }
-  api.apiRequest(apiUrl + "/post", query)
+  api.apiRequest({
+    url: apiUrl + "/post",
+    query: query
+  })
   .then(function(apiResponse) {
     // This will be unnecessary once the API is returning a post based on a slug query.
     var data = apiResponse.posts_list
@@ -193,12 +190,28 @@ app.get("/new/", function(req, res) {
   res.render("new");
 });
 
+app.post("/new/", function(req, res) {
+  api.apiRequest({
+    url: apiUrl + "/posts/new/",
+    method: "POST",
+    body: req.body,
+  })
+  .then(function(apiResponse) {
+    res.send(apiResponse);
+  })
+  .catch(function(err) {
+    res.send("" + {"Error": err})
+  });
+
+});
+
+
 app.post("/import", function(req, res) {
   console.log("Starting import");
   var e = false;
   if (req.body) {
     if (req.body.url) {
-      importPost.importPost(req.body.source, req.body.url)
+      importPost(req.body.source, req.body.url)
       .then(function(importedPost) {
           console.log("Title");
           console.log(importedPost.title);

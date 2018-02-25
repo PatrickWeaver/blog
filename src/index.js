@@ -6,8 +6,9 @@ $('document').ready(function(){
   var apiUrl = $( "#apiUrl" ).html();
   var clientUrl = $( "#clientUrl" ).html();
 
-
+  // * * * * * * * * * *
   // Import Post:
+  // * * * * * * * * * *
   $( "button#import-post-button" ).click(function() {
     $( "#import-post-form").show();
   });
@@ -44,8 +45,9 @@ $('document').ready(function(){
 
   });
 
-
+  // * * * * * * * * * *
   // New Post:
+  // * * * * * * * * * *
 
   // Autofill date:
   var d = new Date;
@@ -111,7 +113,7 @@ $('document').ready(function(){
     event.preventDefault();
     console.log($("#new-post-body").val());
     if ( $( "#new-post-body" ).val() != "") {
-      postAPI("/posts/new/");
+      sendNewPost("/new/");
     } else {
       alert("Post must have body");
     }
@@ -156,7 +158,7 @@ $('document').ready(function(){
     $( "#post-failure" ).hide();
   });
 
-  function postAPI(path) {
+  function sendNewPost(path) {
 
     // Grab post data from the form:
     var slug = slugify($( "#new-post-slug" ).val().substr(0, 1024));
@@ -165,15 +167,14 @@ $('document').ready(function(){
       return;
     }
 
-    var apiData = {
+    // Collect into postData object
+    var postData = {
       title: $( "#new-post-title" ).val().substr(0, 1024),
       slug: slug,
       summary: $( "#new-post-summary" ).val(),
       post_date: $( "#new-post-date" ).val(),
       body: $( "#new-post-body" ).val()
     }
-    console.log("API URL: " + apiUrl + path);
-    console.log(apiData.slug);
 
     $( "#post-status" ).show();
     $( "#post-loading" ).show();
@@ -182,8 +183,8 @@ $('document').ready(function(){
       type: "POST",
       dataType: "json",
       contentType: "application/json",
-      url: apiUrl + path,
-      data: JSON.stringify(apiData),
+      url: clientUrl + path,
+      data: JSON.stringify(postData),
       success: function(data) {
         try {
           console.log(data);
@@ -197,15 +198,15 @@ $('document').ready(function(){
           }
         }
         catch (err) {
-          apiPostError(err);
+          sendPostError(err);
         }
       },
       error: function(xhr, status, err, a) {
         console.log("Error: " + err + " -- Status: " + status);
-        apiPostError(err);
+        sendPostError(err);
       }
     });
-    function apiPostError(e) {
+    function sendPostError(e) {
       setTimeout(function() {
         $( "#post-failure" ).show();
         $( "#post-loading" ).hide();
