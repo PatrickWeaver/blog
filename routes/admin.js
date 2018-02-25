@@ -44,7 +44,6 @@ router.get('/logout', function(req, res){
 router.get('/profile',
   require('connect-ensure-login').ensureLoggedIn('login'),
   function(req, res){
-    console.log(req.user);
     templateData.user = req.user;
     res.render('admin/profile', templateData);
   }

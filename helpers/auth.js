@@ -20,7 +20,7 @@ module.exports = function() {
         username: username,
         password: password
       }
-      console.log(apiOptions.host);
+
       var options = {
         url: apiOptions.host + ":" + apiOptions.port + "/" + apiOptions.version + "/people/authenticate/",
         method: "POST",
@@ -29,7 +29,6 @@ module.exports = function() {
       }
       return rp(options)
       .then(function(data) {
-        console.log(data);
         if (data.username && data.id){
           var user = {
             id: data.id,
