@@ -10,6 +10,8 @@ function populate(user = false) {
 
   if (user) {
     td.username = user.username;
+    td.userId = user.id;
+    td.userType = user.type;
     td.admin = user.type === "admin" ? true : false;
   }
   return td;

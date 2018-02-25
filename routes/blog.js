@@ -92,10 +92,9 @@ router.get("/post/:slug/", function(req, res) {
       post = formatPost(post);
       newTemplateData = {
           pageTitle: post.title,
-          post: post,
-          hrBorderColors: hexcolors.hrBorderColor()
+          post: post
       }
-      thisTemplateData = Object.assign({}, templateData, newTemplateData);
+      thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
       res.render("post", thisTemplateData);
     } else {
       res.send("No post found.");
@@ -111,11 +110,9 @@ router.get("/new/", function(req, res) {
   if (req.user && req.user.type === "admin"){
     newTemplateData = {
       pageTitle: "New",
-      apiUrl: apiUrl,
-      clientUrl: clientUrl,
-      hrBorderColors: hexcolors.hrBorderColor()
+      clientUrl: clientUrl
     }
-    thisTemplateData = Object.assign({}, templateData, newTemplateData);
+    thisTemplateData = Object.assign({}, templateData(req.user), newTemplateData);
     res.render("new", thisTemplateData);
   } else {
     res.redirect("/login");
