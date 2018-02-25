@@ -178,30 +178,41 @@ app.get("/post/:slug/", function(req, res) {
 
 // New post form
 app.get("/new/", function(req, res) {
-
-  res.locals = {
-    mainTitle: blogName,
-    pageTitle: "New",
-    apiUrl: apiUrl,
-    clientUrl: clientUrl,
-    hrBorderColors: hexcolors.hrBorderColor()
+  if (req.user && req.user.type === "admin"){
+    res.locals = {
+      mainTitle: blogName,
+      pageTitle: "New",
+      apiUrl: apiUrl,
+      clientUrl: clientUrl,
+      hrBorderColors: hexcolors.hrBorderColor()
+    }
+    res.render("new");
+  } else {
+    res.redirect("/login");
   }
 
-  res.render("new");
 });
 
 app.post("/new/", function(req, res) {
-  api.apiRequest({
-    url: apiUrl + "/posts/new/",
-    method: "POST",
-    body: req.body,
-  })
-  .then(function(apiResponse) {
-    res.send(apiResponse);
-  })
-  .catch(function(err) {
-    res.send("" + {"Error": err})
-  });
+  if (req.user && req.user.type === "admin") {
+    requestBody = req.body;
+    requestBody.apiKey = req.user.apiKey;
+    api.apiRequest({
+      url: apiUrl + "/posts/new/",
+      method: "POST",
+      body: req.body,
+    })
+    .then(function(apiResponse) {
+      res.send(apiResponse);
+    })
+    .catch(function(err) {
+      res.send("" + {"Error": err})
+    });
+  } else {
+    res.status(403);
+    res.send("Please login before posting");
+  }
+
 
 });
 

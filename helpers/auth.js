@@ -37,7 +37,9 @@ module.exports = function() {
             displayName: data.name,
             emails: [
               data.email
-            ]
+            ],
+            apiKey: data.api_key,
+            type: data.type
           }
         } else {
           throw("No user found");

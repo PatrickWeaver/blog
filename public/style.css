@@ -92,6 +92,9 @@ div.post-body {
   margin: 0;
 }
 
+.post-preview p.summary {
+}
+
 /* Image caption */
 .post-body h5 {
   text-align: center;
