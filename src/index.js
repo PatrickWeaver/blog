@@ -194,7 +194,7 @@ $('document').ready(function(){
       success: function(data) {
         try {
           console.log(data);
-          if (data[0].success) {
+          if (data.success) {
             setTimeout(function() {
               $( "#post-success" ).show();
               $( "#post-loading" ).hide();
