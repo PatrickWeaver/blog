@@ -98,7 +98,7 @@ function sendChangeToAPI(req, res, method) {
     body: requestBody
   })
   .then(function(apiResponse) {
-    res.send(apiResponse);
+    res.send(JSON.parse(apiResponse));
   })
   .catch(function(err) {
     res.send("" + {"Error": err})

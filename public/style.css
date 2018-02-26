@@ -248,6 +248,10 @@ ul#pagination > li.page-number {
   cursor: pointer;
 }
 
+#post-form #original-slug {
+  display: none;
+}
+
 .post-form-parent #post-status {
   display: none;
   position: fixed;
