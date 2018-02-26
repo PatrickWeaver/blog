@@ -75,6 +75,28 @@ router.get("/:slug/", function(req, res) {
   });
 });
 
+// Create a new post:
+router.post("/:slug/new", function(req, res) {
+  if (req.user && req.user.type === "admin") {
+    requestBody = req.body;
+    requestBody.api_key = req.user.apiKey;
+    api.apiRequest({
+      url: apiUrl + "/posts/new/",
+      method: "POST",
+      body: requestBody,
+    })
+    .then(function(apiResponse) {
+      res.send(apiResponse);
+    })
+    .catch(function(err) {
+      res.send("" + {"Error": err})
+    });
+  } else {
+    res.status(403);
+    res.send("Please login before posting");
+  }
+});
+
 // Edit Post:
 router.get("/:slug/edit/", function(req, res) {
   if (!req.user || req.user.type != "admin"){

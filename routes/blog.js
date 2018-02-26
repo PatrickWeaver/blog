@@ -93,26 +93,13 @@ router.get("/new/", function(req, res) {
 
 });
 
-// Frontend Api:
-
-router.post("/new/", function(req, res) {
-  if (req.user && req.user.type === "admin") {
-    requestBody = req.body;
-    requestBody.api_key = req.user.apiKey;
-    api.apiRequest({
-      url: apiUrl + "/posts/new/",
-      method: "POST",
-      body: requestBody,
-    })
-    .then(function(apiResponse) {
-      res.send(apiResponse);
-    })
-    .catch(function(err) {
-      res.send("" + {"Error": err})
-    });
+// Frontend Api sends to post router:
+router.post("/new/", function(req, res, next) {
+  if (req.body && req.body.slug) {
+    req.url = "/post/" + req.body.slug + "/new/";
+    router.handle(req, res, next);
   } else {
-    res.status(403);
-    res.send("Please login before posting");
+    res.send({"Error": "No slug"});
   }
 });
 
