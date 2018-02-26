@@ -52,11 +52,13 @@ if (env == "DEV" || env == "GLITCH"){
 // Admin
 var adminRouter = require("./routes/admin");
 app.use("/admin", adminRouter);
-app.get("/login", function(req, res) {
-  res.redirect("/admin/login");
+app.get("/login", function(req, res, next) {
+  req.url = "/admin/login/";
+  app.handle(req, res, next);
 });
-app.get("/logout", function(req, res) {
-  res.redirect("/admin/logout");
+app.get("/logout", function(req, res, next) {
+  req.url = "/admin/logout/";
+  app.handle(req, res, next);
 });
 
 // Blog
