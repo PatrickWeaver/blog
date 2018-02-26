@@ -4,8 +4,13 @@
       <h3>Post Admin:</h3>
       <ul>
         <li><a href="/post/{{ post.slug }}/edit/">📝 Edit Post</a></li>
-        <li><button class="delete-post">⛔️ Delete Post</button></li>
+        <li><button id="activate-delete" class="delete">⛔️ Delete Post</button></li>
       </ul>
+      <div id="are-you-sure-delete">
+        <h2>Are you sure?</h2>
+        <h5>This post will be deleted permanently.</h5>
+        <button id="cancel-delete" class="cancel">Cancel</button><button id="delete-post" class="delete">Delete</button>
+      </div>
     </div>
   {{/ if }}
   <h2 class="post-title"><a href="/post/{{ post.slug }}/">{{ post.title }}</a></h2>

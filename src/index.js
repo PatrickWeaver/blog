@@ -229,7 +229,15 @@ $('document').ready(function(){
     });
   }
 
-  $( ".delete-post").click(function() {
+  $( "#activate-delete" ).click(function() {
+    $( "#are-you-sure-delete" ).show();
+  });
+
+  $( "#cancel-delete" ).click(function() {
+    $("#are-you-sure-delete" ).hide();
+  });
+
+  $( "#delete-post").click(function() {
     $( "#post-status" ).show();
     $( "#post-saving-changes" ).show();
     $.ajax({
