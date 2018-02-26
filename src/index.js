@@ -102,10 +102,11 @@ $('document').ready(function(){
 
   $( "#post-form #post-body" ).keyup(function() {
     if (
-      $( "#post-form #post-title" ).val() === ""
-      &&
-      $( "#post-form #post-slug" ).val() === ""
-    ) {
+          $( "#post-form #post-title" ).val() === ""
+          &&
+          $( "#post-form #post-slug" ).val() === ""
+      )
+   {
       fillSlug( $( this ).val() );
     }
   });

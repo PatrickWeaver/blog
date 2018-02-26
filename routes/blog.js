@@ -47,7 +47,8 @@ router.get('/', function(req, res) {
   })
   //apiUrl + "/posts", query)
   .then(function(apiResponse) {
-    if (!apiResponse.response && !apiResponse.posts_list) {
+    apiResponse = JSON.parse(apiResponse);
+    if (!apiResponse || !apiResponse.posts_list) {
       throw "No Response From API"
     }
 
