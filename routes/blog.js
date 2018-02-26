@@ -1,4 +1,5 @@
 const port = process.env.PORT;
+const env = process.env.ENV;
 
 const apiOptions = {
   host: process.env.API_URL,
@@ -71,7 +72,12 @@ router.get('/', function(req, res) {
     res.render("index", thisTemplateData);
   })
   .catch(function(err) {
-    res.send(String(err));
+    var error = "API Error";
+    if (env === "DEV" || env === "GLITCH"){
+      error = err;
+    }
+    var thisTemplateData = Object.assign({}, templateData(req.user), {error: error});
+    res.render("error", thisTemplateData);
   });
 });
 
