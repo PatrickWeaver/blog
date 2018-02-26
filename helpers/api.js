@@ -9,13 +9,7 @@ function apiRequest({url, method = "GET", query = "", body = {}}) {
   if (method === "POST" && body != {}) {
     options.body = JSON.stringify(body);
   }
-  return rp(options)
-  .then(function (apiResponse) {
-    return JSON.parse(apiResponse);
-  })
-  .catch(function (err) {
-    return err;
-  });
+  return Promise.all([rp(options)]);
 }
 
 module.exports = {

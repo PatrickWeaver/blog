@@ -96,7 +96,7 @@ router.get("/new/", function(req, res) {
 // Frontend Api sends to post router:
 router.post("/new/", function(req, res, next) {
   if (req.body && req.body.slug) {
-    req.url = "/post/" + req.body.slug + "/new/";
+    req.url = "/post/" + req.body.slug + "/";
     router.handle(req, res, next);
   } else {
     res.send({"Error": "No slug"});

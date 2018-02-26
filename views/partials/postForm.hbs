@@ -17,14 +17,10 @@
   <input type="datetime-local" name="post_date" id="post-date" {{# if post.post_date }}value="{{ post.post_date }}"{{/ if }}>
 
   <label>Summary:</label>
-  <textarea name="summary" id="post-summary">
-    {{# if post.summary }}{{ post.summary }}{{/ if }}
-  </textarea>
+  <textarea name="summary" id="post-summary">{{# if post.summary }}{{ post.summary }}{{/ if }}</textarea>
 
   <label>Body:</label>
-  <textarea name="body" id="post-body">
-    {{# if post.body }}{{ post.body }}{{/ if }}
-  </textarea>
+  <textarea name="body" id="post-body">{{# if post.body }}{{ post.body }}{{/ if }}</textarea>
 
   <button class="submit">Submit</button>
 

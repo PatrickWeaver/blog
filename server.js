@@ -3,13 +3,15 @@ const env = process.env.ENV;
 const blogName = process.env.BLOGNAME;
 // init project
 const express = require("express");
+var app = express();
 
-const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('cookie-parser')());
 app.use(require('express-session')({ secret: process.env.AUTH_SECRET, resave: false, saveUninitialized: false }));
+
+
 
 var passport = require('passport');
 app.use(passport.initialize());
@@ -20,12 +22,12 @@ const hbs = require("hbs");
 const auth = require("./helpers/auth")();
 const port = process.env.PORT;
 
-if (process.env.ENV == "DEV" || process.env.ENV == "GLITCH"){
-  console.log("ENV IS: " + process.env.ENV);
+if (env == "DEV" || env == "GLITCH"){
+  console.log("ENV IS: " + env);
 } else {
   console.log("ENV IS NOT DEV");
-  if (process.env.PORT){
-    console.log("env port: " + process.env.PORT);
+  if (port){
+    console.log("env port: " + port);
   }
 }
 

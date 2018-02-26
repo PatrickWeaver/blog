@@ -3,8 +3,8 @@
     <div id="post-admin">
       <h3>Post Admin:</h3>
       <ul>
-        <li><a href="edit/">📝 Edit Post</a></li>
-        <li><a href="delete/" class="delete-post">⛔️ Delete Post</a></li>
+        <li><a href="/post/{{ post.slug }}/edit/">📝 Edit Post</a></li>
+        <li><a href="/post/{{ post.slug }}/delete/" class="delete-post">⛔️ Delete Post</a></li>
       </ul>
     </div>
   {{/ if }}
