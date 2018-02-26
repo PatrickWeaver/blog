@@ -114,8 +114,8 @@ function getPostTemplate(post) {
 
 function getPost(apiResponse) {
   // This will be unnecessary once the API is returning a post based on a slug query.
-  var data = JSON.parse(apiResponse).posts_list;
-  var post = data ? formatPost(data[0]) : false;
+  var data = JSON.parse(apiResponse);
+  var post = data ? formatPost(data) : false;
   return post;
 }
 
