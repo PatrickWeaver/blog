@@ -252,7 +252,7 @@ ul#pagination > li.page-number {
   display: none;
 }
 
-.post-form-parent #post-status {
+#post-status {
   display: none;
   position: fixed;
   top: 0;
@@ -262,7 +262,7 @@ ul#pagination > li.page-number {
   background-color: rgba(233, 233, 233, 0.8);
 }
 
-.post-form-parent #post-status > div{
+#post-status > div{
   display: none;
   position: fixed;
   top: 0;

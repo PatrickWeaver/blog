@@ -116,7 +116,7 @@ $('document').ready(function(){
     if ( $( "#post-form #post-body" ).val() != "") {
       var parentId = $( this ).closest(".post-form-parent").attr("id");
       if (parentId === "edit-post") {
-        sendPost("/post/" + originalSlug + "/edit/" )
+        sendPost("/post/" + originalSlug + "/edit/")
       } else if (parentId === "new-post") {
         sendPost("/new/");
       }
@@ -183,7 +183,12 @@ $('document').ready(function(){
     }
 
     $( "#post-status" ).show();
-    $( "#post-loading" ).show();
+    if (path === "/new/"){
+      $( "#post-saving" ).show();
+    } else {
+      $( "#post-saving-changes" ).show();
+    }
+
 
     $.ajax({
       type: "POST",
@@ -196,55 +201,75 @@ $('document').ready(function(){
           console.log(data);
           if (data.success) {
             setTimeout(function() {
-              $( "#post-success" ).show();
-              $( "#post-loading" ).hide();
+              if (path === "/new/") {
+                $( "#post-success" ).show();
+              } else {
+                var newURL = clientUrl + "/post/" + data.slug + "/";
+                $( "#new-post-url" ).html("<a href='" + newURL + "'>" + newURL + "</a>");
+                $( "#edit-success" ).show();
+              }
+
+              $( "#post-saving" ).hide();
+              $( "#post-saving-changes" ).hide();
             }, 500);
           } else {
             throw "Not posted";
           }
         }
         catch (err) {
-          sendPostError(err);
+          whichError = path === "/new/" ? "create" : "edit";
+          sendPostError(err, whichError);
         }
       },
       error: function(xhr, status, err, a) {
         console.log("Error: " + err + " -- Status: " + status);
-        sendPostError(err);
+        whichError = path === "/new/" ? "create" : "edit";
+        sendPostError(err, whichError);
       }
     });
-    function sendPostError(e) {
-      setTimeout(function() {
-        $( "#post-failure" ).show();
-        $( "#post-loading" ).hide();
-      }, 500);
-    }
   }
 
   $( ".delete-post").click(function() {
+    $( "#post-status" ).show();
+    $( "#post-saving-changes" ).show();
     $.ajax({
       type: "GET",
       url: clientUrl + "/post/" + originalSlug + "/delete/",
       success: function(data) {
         try {
           console.log(data);
-          if (data[0].success) {
+          if (data.success) {
             setTimeout(function() {
-              $( "#post-success" ).show();
-              $( "#post-loading" ).hide();
+              $( "#delete-success" ).show();
+              $( "#post-saving-changes" ).hide();
             }, 500);
           } else {
             throw "Not posted";
           }
         }
         catch (err) {
-          sendPostError(err);
+          sendPostError(err, "delete");
         }
       },
       error: function(xhr, status, err, a) {
         console.log("Error: " + err + " -- Status: " + status);
-        sendPostError(err);
+        sendPostError(err, "delete");
       }
     });
   });
+
+  function sendPostError(e, which) {
+    setTimeout(function() {
+      if (which === "create"){
+        $( "#post-failure" ).show();
+      } else if (which === "edit") {
+        $( "#edit-failure" ).show();
+      } else if (which === "delete") {
+        $( "#delete-failure" ).show();
+      }
+      $( "#post-saving" ).hide();
+      $( "#post-saving-changes" ).hide();
+    }, 500);
+  }
 
 });

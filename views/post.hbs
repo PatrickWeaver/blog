@@ -4,7 +4,7 @@
       <h3>Post Admin:</h3>
       <ul>
         <li><a href="/post/{{ post.slug }}/edit/">📝 Edit Post</a></li>
-        <li><a href="/post/{{ post.slug }}/delete/" class="delete-post">⛔️ Delete Post</a></li>
+        <li><button class="delete-post">⛔️ Delete Post</button></li>
       </ul>
     </div>
   {{/ if }}
@@ -19,4 +19,6 @@
   <div class="post-body">
     {{{ post.html_body }}}
   </div>
+  {{> postStatus }}
+  <div id="original-slug">{{ post.slug }}</div>
 </div>
