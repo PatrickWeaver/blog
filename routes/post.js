@@ -77,12 +77,13 @@ function sendTemplateWithPostData(req, res, template){
 }
 
 // Create a new post:
-router.post("/:slug/", function(req, res, next) {
+router.post("/:slug/", function(req, res) {
   sendChangeToAPI(req, res, "POST");
 });
 
 // Edit a post:
-router.post("/:slug/edit/", function(req, res, next) {
+router.post("/:slug/edit/", function(req, res) {
+  console.log(req.body);
   sendChangeToAPI(req, res, "PUT");
 });
 // Delete a post:

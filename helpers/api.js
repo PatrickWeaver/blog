@@ -6,7 +6,7 @@ function apiRequest({url, method = "GET", query = "", body = {}}) {
     method: method,
     qs: query
   }
-  if (method === "POST" && body != {}) {
+  if ((method === "POST" || method === "PUT") && body != {}) {
     options.body = JSON.stringify(body);
   }
   return Promise.all([rp(options)]);
