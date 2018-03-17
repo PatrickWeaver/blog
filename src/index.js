@@ -175,6 +175,42 @@ $('document').ready(function(){
     $( "#post-failure" ).hide();
   });
 
+  $( "button#upload-image" ).click(function(event) {
+    event.preventDefault();
+
+    var uploadData = new FormData();
+    uploadData.append("file", $( "#image-upload-input" ).prop('files')[0]);
+
+    var path = "/file-upload";
+
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      contentType: "multipart/form-data",
+      url: clientUrl + path,
+      data: uploadData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(data) {
+        console.log("Success!");
+      },
+      error: function(xhr, status, err, a) {
+        console.log("Error:");
+        console.log(err);
+        console.log("Status:");
+        console.log(status);
+      }
+    });
+
+
+
+
+  });
+
+
+
+
   function sendPost(path) {
 
     // Grab post data from the form:

@@ -27,6 +27,18 @@ const templateData = require("../helpers/templateData").populate;
 const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + "/" + apiOptions.version + apiOptions.path;
 const clientUrl = "" + clientOptions.host + ":" + clientOptions.port + clientOptions.path;
 
+const multer = require("multer");
+const memoryStorage = multer.memoryStorage();
+const memoryUpload = multer({
+	storage: memoryStorage,
+	limits: {
+		filesize: 20*1024*1024,
+		files: 1
+	}
+}).single("file");
+
+const uuidv1 = require('uuid/v1');
+
 // Get list of posts, paginated with ?page=2
 router.get('/', function(req, res) {
   // By default ask for the first page of results
@@ -148,6 +160,24 @@ router.post("/import", function(req, res) {
   if (e) {
     res.send({title: "Error: " + e});
   }
+});
+
+router.post("/file-upload", memoryUpload, function(req, res) {
+  var error = false;
+  var errorMessage = "";
+  console.log("File Upload!");
+  if (!req.file) {
+    res.status(400);
+    res.send({error: "No file was uploaded."});
+    return;
+  }
+  var file = req.file;
+  var filetype = file.mimetype;
+  var filename = uuidv1() + "-" + file.originalname;
+
+  console.log(filename);
+
+  res.send({message: "OK"});
 });
 
 
