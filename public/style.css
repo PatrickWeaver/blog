@@ -288,7 +288,7 @@ ul#pagination > li.page-number {
   cursor: pointer;
 }
 
-#post-form #original-slug {
+#original-slug {
   display: none;
 }
 

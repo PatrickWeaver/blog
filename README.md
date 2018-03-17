@@ -8,6 +8,12 @@ PW Blog
 
 #### To run docker container in development:
 
+If API is also running in a docker container connect to network:
+`docker network connect [network name] [container name]`
+Then get API network ip address:
+`docker network inspect [network name]`
+Then change API_URL ENV Variable and restart container
+
 `docker run -v $PWD:/usr/src/blog --env API_URL=[API DOCKER NETWORK IP] --env API_PORT=8000 --env API_VERSION=1 --env CLIENT_URL=localhost --env CLIENT_PORT=8106 --env BLOGNAME="Patrick Weaver Blog"
 --env PORT=8106
 --env AUTH_SECRET="abc123"

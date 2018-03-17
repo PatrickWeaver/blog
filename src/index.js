@@ -57,9 +57,16 @@ $('document').ready(function(){
   var autofillSlug = true;
 
   function formatDate(d) {
+    var year = d.getFullYear();
+    var month = ("0" + (d.getMonth() + 1)).slice(-2);
+    var date = ("0" + d.getDate()).slice(-2);
+    var hours = ("0" + d.getHours()).slice(-2);
+    var minutes = ("0" + d.getMinutes()).slice(-2);
+
+
     return(
-    d.getFullYear() + "-" + parseInt(d.getMonth() + 1) + "-" + d.getDate()
-    + " " + d.getHours() + ":" + d.getMinutes())
+     year + "-" + month + "-" + date
+    + " " + hours + ":" + minutes)
   }
 
 
@@ -104,7 +111,11 @@ $('document').ready(function(){
     if (
           $( "#post-form #post-title" ).val() === ""
           &&
-          $( "#post-form #post-slug" ).val() === ""
+          (
+            $( "#post-form #post-slug" ).val() === ""
+            ||
+            $( "#post-from #post-slug" ).val() === fillSlug( $( this ).val() )
+          )
       )
    {
       fillSlug( $( this ).val() );

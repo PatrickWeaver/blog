@@ -41,6 +41,7 @@ router.get('/', function(req, res) {
     }
   }
 
+  console.log(apiUrl);
   // ask the API for list of posts
   api.apiRequest({
       url: apiUrl + "/posts",
@@ -72,6 +73,7 @@ router.get('/', function(req, res) {
     res.render("index", thisTemplateData);
   })
   .catch(function(err) {
+    console.log("Catch: " + err);
     var error = "API Error";
     if (env === "DEV" || env === "GLITCH"){
       error = err;
