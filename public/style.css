@@ -267,8 +267,6 @@ ul#pagination > li.page-number {
   padding: .5em .5em;
 }
 
-
-
 #post-form textarea, #post-form button.submit {
   font-size: 150%;
   line-height: 150%;
@@ -319,6 +317,42 @@ ul#pagination > li.page-number {
   margin: 1em 0 1em;
   cursor: pointer;
   font-size: 70%;
+}
+
+#image-upload-form, #uploaded-image {
+  border: 1px solid #888;
+  padding: 1em;
+  margin: 0 0 1em 0;
+}
+
+#uploaded-image {
+  display: none;
+}
+
+#image-upload-form label, #uploaded-image label {
+  width: 100%;
+  display: block;
+}
+
+#uploaded-image input{
+  margin: .25em 0;
+}
+
+#image-upload-form input {
+  padding: .25em 0;
+  cursor: pointer;
+  font-size: 100%;
+}
+
+#image-upload-form button {
+  font-size: 125%;
+  padding: .25em;
+  cursor: pointer;
+}
+
+#uploaded-image input {
+  width: 100%;
+  font-size: 150%;
 }
 
 /* Login */
