@@ -173,7 +173,8 @@ router.post("/file-upload", memoryUpload, function(req, res) {
   }
   var file = req.file;
   var filetype = file.mimetype;
-  var filename = uuidv1() + "-" + file.originalname;
+  var fileUuid = uuidv1();
+  var filename = fileUuid + "-" + file.originalname;
 
   console.log(filename);
 
