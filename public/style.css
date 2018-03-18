@@ -82,6 +82,14 @@ h4.date, span.permalink {
   display: inline-block;
 }
 
+/* Image Captions */
+h6 {
+  text-align: center;
+  font-size: 90%;
+  margin-top: .5em;
+  margin-bottom: 1.5em;
+}
+
 span.permalink {
   font-size: 80%;
 }
@@ -90,6 +98,11 @@ div.post-body {
   margin: .5em 0 2em;
 }
 
+#site-header,
+.pagination,
+#new-post,
+#edit-post,
+#profile,
 li.post,
 .post div.date,
 .post p,
@@ -153,7 +166,7 @@ p.read-more {
 /* Posts */
 /* Pagination */
 
-ul#posts, ul#pagination {
+ul#posts, ul.pagination {
   list-style: none;
   padding: 0;
 }
@@ -162,7 +175,7 @@ ul#posts, ul#pagination {
   margin: 1.5em 0;
 }
 
-ul#pagination > li.page-number {
+ul.pagination > li.page-number {
   display: inline;
 }
 
