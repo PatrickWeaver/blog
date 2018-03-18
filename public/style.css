@@ -13,7 +13,7 @@ body {
 }
 
 #container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -77,7 +77,7 @@ h2.post-title {
 }
 
 h4.date, span.permalink {
-  margin-top: .25em;
+  margin-top: .5em;
   margin-bottom: 1em;
   display: inline-block;
 }
@@ -90,6 +90,26 @@ div.post-body {
   margin: .5em 0 2em;
 }
 
+li.post,
+.post div.date,
+.post p,
+.post h1,
+.post h2,
+.post h3,
+.post h4,
+.post h5,
+.post h6,
+.post ul,
+.post li,
+hr,
+#post-admin,
+.post-preview,
+.permalink {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .post-body p, p.preview , .post-body li {
   line-height: 150%;
   font-size: 110%;
@@ -97,12 +117,16 @@ div.post-body {
 }
 
 .post-body p {
-  margin: 0 0 1em;
+  margin: 0 auto 1em;
+  max-width: 800px;
 }
 
 .post-body img {
-  max-width: 700px;
-  margin: .5em 50px;
+  display: block;
+  max-width: 500px;
+  margin: .5em auto;
+  vertical-align: middle;
+  padding: .25em;
 }
 
 .post-preview p {

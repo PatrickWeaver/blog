@@ -31,11 +31,11 @@ $('document').ready(function(){
       data: JSON.stringify(importData),
       success: function(data) {
         console.log("Success!");
-        $( "#new-post-title" ).val(data.title);
-        $( "#new-post-body").html(data.body);
+        $( "#post-title" ).val(data.title);
+        $( "#post-body").html(data.body);
         fillSlug(data.title);
         $('html, body').animate({
-            scrollTop: $("#new-post-title").prev().offset().top
+            scrollTop: $("#post-title").prev().offset().top
         }, 500);
 
       },
@@ -140,7 +140,7 @@ $('document').ready(function(){
     var fillButtonsHTML = "";
     var fillFromAreas = ["title", "summary", "body"];
     for (var i in fillFromAreas) {
-      var value = $( "#new-post-" + fillFromAreas[i] ).val();
+      var value = $( "#post-" + fillFromAreas[i] ).val();
       if (value != "") {
         fillButtonsHTML += "<li><button type='button' class='fill-slug-from'>" + fillFromAreas[i] + "</button></li>";
       }
