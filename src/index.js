@@ -118,7 +118,7 @@ $('document').ready(function(){
           )
       )
    {
-      fillSlug( $( this ).val() );
+      fillSlug( $( this ).val().substr(0, 70) );
     }
   });
 
@@ -157,7 +157,7 @@ $('document').ready(function(){
 
     $( "body" ).on("click", ".fill-slug-from", function(event) {
       event.preventDefault();
-      slug = slugify($( "#post-form #post-" + $( this ).html().toLowerCase() ).val().substr(0, 1024));
+      slug = slugify($( "#post-form #post-" + $( this ).html().toLowerCase() ).val().substr(0, 70));
       $( "#post-form #post-slug" ).val(slug);
       $( "#slug-fill" ).hide();
     });
