@@ -68,6 +68,7 @@ function sendTemplateWithPostData(req, res, template){
   .then(function(apiResponse) {
     console.log(apiResponse);
     var post = getPost(apiResponse);
+    post.body = post.body.replace(/[ ]{2,}/g, " ");
     var thisTemplateData = Object.assign({}, templateData(req.user), getPostTemplate(post));
     res.render(template, thisTemplateData);
   })
@@ -93,6 +94,7 @@ router.get("/:slug/delete/", function(req, res) {
 
 function sendChangeToAPI(req, res, method) {
   var requestBody = Object.assign({}, req.body, {api_key: req.user.apiKey});
+  requestBody.body = requestBody.body.replace(/[ ]{2,}/g, " ")
   api.apiRequest({
     url: apiUrl + "/post/" + req.params.slug + "/",
     method: method,
