@@ -325,17 +325,9 @@ ul#pagination > li.page-number {
   margin: 0 0 1em 0;
 }
 
-#uploaded-image {
-  display: none;
-}
-
 #image-upload-form label, #uploaded-image label {
   width: 100%;
   display: block;
-}
-
-#uploaded-image input{
-  margin: .25em 0;
 }
 
 #image-upload-form input {
@@ -350,9 +342,32 @@ ul#pagination > li.page-number {
   cursor: pointer;
 }
 
-#uploaded-image input {
+#uploaded-image {
+  display: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#uploaded-image-url {
+  width: 80%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#uploaded-image-url input {
   width: 100%;
   font-size: 150%;
+  margin: .25em 0;
+}
+
+#uploaded-image-preview {
+  width: 20%;
+  height: auto;
+  display: inline-block;
+}
+
+#uploaded-image-preview img {
+  width: 100%;
 }
 
 /* Login */

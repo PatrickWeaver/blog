@@ -175,6 +175,10 @@ $('document').ready(function(){
     $( "#post-failure" ).hide();
   });
 
+  // * * * * * * * * * *
+  // Image Upload
+  // * * * * * * * * * *
+
   $( "button#upload-image" ).click(function(event) {
     event.preventDefault();
 
@@ -194,6 +198,10 @@ $('document').ready(function(){
       processData: false,
       success: function(data) {
         console.log("Success!");
+        $( "#uploaded-image-url input" ).val(data.url);
+        $( "#uploaded-image-preview").html("<img src='" + data.url + "' />")
+        $( "#uploaded-image" ).show();
+        $( "#image-upload-input" ).val("");
       },
       error: function(xhr, status, err, a) {
         console.log("Error:");
@@ -202,10 +210,13 @@ $('document').ready(function(){
         console.log(status);
       }
     });
+  });
 
-
-
-
+  $( "#uploaded-image-url input" ).change(function() {
+    if ($( this ).val() === "") {
+      $( "#uploaded-image" ).hide();
+      $( "#uploaded-image-preview" ).html("");
+    }
   });
 
 

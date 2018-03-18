@@ -23,6 +23,7 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.2",
     "request-promise-native": "^1.0.5",
+    "streamifier": "^0.1.1",
     "turndown": "^4.0.1",
     "uuid": "^3.2.1"
   },

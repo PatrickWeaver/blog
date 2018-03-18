@@ -38,6 +38,7 @@ const memoryUpload = multer({
 }).single("file");
 
 const uuidv1 = require('uuid/v1');
+const streamifier = require('streamifier');
 
 // Get list of posts, paginated with ?page=2
 router.get('/', function(req, res) {
@@ -163,22 +164,58 @@ router.post("/import", function(req, res) {
 });
 
 router.post("/file-upload", memoryUpload, function(req, res) {
-  var error = false;
-  var errorMessage = "";
-  console.log("File Upload!");
   if (!req.file) {
     res.status(400);
     res.send({error: "No file was uploaded."});
     return;
   }
+
   var file = req.file;
-  var filetype = file.mimetype;
   var fileUuid = uuidv1();
-  var filename = fileUuid + "-" + file.originalname;
 
-  console.log(filename);
+  console.log("typeof:")
+  console.log(typeof file)
 
-  res.send({message: "OK"});
+  var uploadData = {
+    file: {
+      value: file.buffer,
+      options: {
+        filename: fileUuid + "-" + file.originalname,
+        encoding: file.encoding,
+        mimetype: file.mimetype,
+        size: file.size
+      }
+    },
+    filetype: "" + file.mimetype,
+    uuid: fileUuid,
+    filename: fileUuid + "-" + file.originalname
+  }
+
+  api.apiRequest({
+      url: apiUrl + "/uploads/new/",
+      method: "POST",
+      formData: uploadData
+  })
+  .then(function(apiResponse) {
+    apiResponse = JSON.parse(apiResponse);
+    console.log(apiResponse);
+    if (!apiResponse || !apiResponse[0].upload_url) {
+      throw "No Response From API"
+    }
+
+    var upload_url = apiResponse[0].upload_url
+    res.status(200);
+    res.json({url: upload_url});
+  })
+  .catch(function(err) {
+    console.log("Catch: " + err);
+    var error = "API Error";
+    if (env === "DEV" || env === "GLITCH"){
+      error = err;
+    }
+    res.status(400);
+    res.json({error: error});
+  });
 });
 
 
