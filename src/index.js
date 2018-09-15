@@ -74,7 +74,7 @@ $('document').ready(function(){
   // From: https://gist.github.com/mathewbyrne/1280286
   // Shortened to 1024 characters if if longer (it shouldn't be because the title is also 1024)
   function slugify(text) {
-    slug = text.toString().toLowerCase()
+    var slug = text.toString().toLowerCase()
       .replace(/\s+/g, '-')           // Replace spaces with -
       .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
       .replace(/\-\-+/g, '-')         // Replace multiple - with single -
@@ -157,7 +157,7 @@ $('document').ready(function(){
 
     $( "body" ).on("click", ".fill-slug-from", function(event) {
       event.preventDefault();
-      slug = slugify($( "#post-form #post-" + $( this ).html().toLowerCase() ).val().substr(0, 70));
+      let slug = slugify($( "#post-form #post-" + $( this ).html().toLowerCase() ).val().substr(0, 70));
       $( "#post-form #post-slug" ).val(slug);
       $( "#slug-fill" ).hide();
     });
@@ -223,7 +223,6 @@ $('document').ready(function(){
 
 
   function sendPost(path) {
-
     // Grab post data from the form:
     var slug = slugify($( "#post-form #post-slug" ).val().substr(0, 1024));
     if (slug === "") {
@@ -247,6 +246,7 @@ $('document').ready(function(){
       $( "#post-saving-changes" ).show();
     }
 
+    console.log("URL: " + clientUrl + path)
 
     $.ajax({
       type: "POST",

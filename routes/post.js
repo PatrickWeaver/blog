@@ -25,7 +25,6 @@ const templateData = require("../helpers/templateData").populate;
 const apiUrl = "" + apiOptions.host + ":" + apiOptions.port + "/" + apiOptions.version + apiOptions.path;
 const clientUrl = "" + clientOptions.host + ":" + clientOptions.port + clientOptions.path;
 
-
 // Placeholder for unused route redirect to all posts route in blog router
 router.get("/", function(req, res) {
   res.redirect("/");
@@ -79,25 +78,32 @@ function sendTemplateWithPostData(req, res, template){
 
 // Create a new post:
 router.post("/:slug/", function(req, res) {
-  sendChangeToAPI(req, res, "POST");
+  sendChangeToAPI(req, res, "new");
 });
 
 // Edit a post:
 router.post("/:slug/edit/", function(req, res) {
   console.log(req.body);
-  sendChangeToAPI(req, res, "PUT");
+  sendChangeToAPI(req, res, "edit");
 });
 // Delete a post:
 router.get("/:slug/delete/", function(req, res) {
-  sendChangeToAPI(req, res, "DELETE");
+  sendChangeToAPI(req, res, "delete");
 });
 
-function sendChangeToAPI(req, res, method) {
+function sendChangeToAPI(req, res, endpoint) {
   var requestBody = Object.assign({}, req.body, {api_key: req.user.apiKey});
   requestBody.body = requestBody.body.replace(/[ ]{2,}/g, " ")
+
+  // Include slug in url unless new post:
+  var slugAndEndpoint = req.params.slug + "/" + endpoint + "/";
+  if (endpoint === "new") {
+    slugAndEndpoint = endpoint + "/"
+  }
+
   api.apiRequest({
-    url: apiUrl + "/post/" + req.params.slug + "/",
-    method: method,
+    url: apiUrl + "/post/" + slugAndEndpoint,
+    method: "POST",
     body: requestBody
   })
   .then(function(apiResponse) {

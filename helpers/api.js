@@ -9,9 +9,9 @@ function apiRequest({url, method = "GET", query = "", body = false, formData = f
     method: method,
     qs: query
   }
-  if (method === "GET" || method === "DELETE"){
+  if (method === "GET") {
     return Promise.all([rp(options)]);
-  } else if (method === "POST" || method === "PUT") {
+  } else if (method === "POST") {
     // New Post:
     if (body) {
       console.log(body);
