@@ -4,26 +4,33 @@
     {{> head }}
   </head>
   <body>
-    <div id="container">
-      <h1 id="site-header">
-        <a href="/">
-          {{ mainTitle }}
-        </a>
-      </h1>
-      {{# if index }}
-        {{> pagination }}
-      {{/ if }}
+    {{# if username }}
+      <div id="user">
+        Logged in as: {{ username }} {{# if admin }} (Admin) {{/ if }} | <a href="/admin/profile">Profile</a> | <a href="/logout">Logout</a>
+      </div>
+    {{/ if }}
+    <div id="wrapper">
+      <div id="container">
+        <h1 id="site-header">
+          <a href="/">
+            {{ mainTitle }}
+          </a>
+        </h1>
+        {{# if index }}
+          {{> pagination }}
+        {{/ if }}
 
-      {{> bars }}
-      {{{ body }}}
-      {{> bars }}
-      {{#if index}}
-        {{> pagination }}
-      {{/if }}
-      {{> script }}
-      <div class="hide">
-        <span id="apiUrl">{{ apiUrl }}</span>
-        <span id="clientUrl">{{ clientUrl }}</span>
+        {{> bars }}
+        {{{ body }}}
+        {{> bars }}
+        {{#if index}}
+          {{> pagination }}
+        {{/if }}
+        {{> script }}
+        <div class="hide">
+          <span id="apiUrl">{{ apiUrl }}</span>
+          <span id="clientUrl">{{ clientUrl }}</span>
+        </div>
       </div>
     </div>
     <a href="/new" id="new-link">

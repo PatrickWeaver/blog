@@ -1,0 +1,27 @@
+<form id="post-form">
+
+  <label>Title:</label>
+  <input type="text" name="title" id="post-title" {{# if post.title }}value="{{ post.title }}"{{/ if }}>
+
+  <div id="original-slug">{{ post.slug }}</div>
+  <label>URL Slug:</label>
+  <input type="text" name="slug" id="post-slug" {{# if post.slug }}value="{{ post.slug }}"{{/ if }}>
+  <div id="slug-fill">
+    <h5>Post must have a slug:</h5>
+    <h6>Fill From:</h6>
+    <ul>
+    </ul>
+  </div>
+
+  <label>Post Date:</label>
+  <input type="datetime-local" name="post_date" id="post-date" {{# if post.post_date }}value="{{ post.post_date }}"{{/ if }}>
+
+  <label>Summary:</label>
+  <textarea name="summary" id="post-summary">{{# if post.summary }}{{ post.summary }}{{/ if }}</textarea>
+
+  <label>Body:</label>
+  <textarea name="body" id="post-body">{{# if post.body }}{{ post.body }}{{/ if }}</textarea>
+
+  <button class="submit">Submit</button>
+
+</form>

@@ -1,7 +1,16 @@
+const blogName = process.env.BLOGNAME;
+
 var express = require("express");
 var router = express.Router();
 var passport = require('passport');
-var templateData = {};
+
+const hexcolors = require("../helpers/hexcolors");
+const templateData = require("../helpers/templateData").populate;
+
+function getColors(td) {
+  td.hrBorderColors = hexcolors.hrBorderColor();
+  return td;
+}
 
 router.get('/', function(req, res) {
   if (req.user) {
@@ -14,7 +23,8 @@ router.get('/', function(req, res) {
 router.get('/login',
   function(req, res){
     if (!req.user){
-      res.render('admin/login', templateData);
+      var thisTemplateData = Object.assign({}, templateData(req.user));
+      res.render('login', thisTemplateData);
     } else {
       res.redirect(req.baseUrl + '/profile');
     }
@@ -30,6 +40,7 @@ router.post('/login',
 
 
 router.get('/login/invalid', function(req, res){
+  console.log("Invalid");
   res.send('<h1>Invalid Login</h1><a href="./">Login</a>');
 });
 
@@ -43,8 +54,8 @@ router.get('/logout', function(req, res){
 router.get('/profile',
   require('connect-ensure-login').ensureLoggedIn('login'),
   function(req, res){
-    templateData.user = req.user;
-    res.render('admin/profile', templateData);
+    var thisTemplateData = Object.assign({}, templateData(req.user));
+    res.render('profile', thisTemplateData);
   }
 );
 

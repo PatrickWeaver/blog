@@ -1,59 +1,7 @@
-<div id="new-post">
-  <button type="button" id="import-post-button">Import Post</button>
-  <div id="import-post-form">
-    <form>
-      <label>URL:</label>
-      <input type="text" name="url" id="import-post-url">
-
-      <label>Source</label>
-      <select id="import-post-source">
-        <option value="html">HTML</option>
-        <option value="markdown" disabled>Markdown</option>
-        <option value="medium">Medium</option>
-      </select>
-      <br>
-      <button class="submit" id="submit-import-post">Import</button>
-    </form>
-    {{> bars }}
-  </div>
-  <form id="new-post-form">
-
-    <label>Title:</label>
-    <input type="text" name="title" id="new-post-title">
-
-    <label>URL Slug:</label>
-    <input type="text" name="slug" id="new-post-slug">
-    <div id="slug-fill">
-      <h5>Post must have a slug:</h5>
-      <h6>Fill From:</h6>
-      <ul>
-      </ul>
-    </div>
-
-    <label>Post Date:</label>
-    <input type="datetime-local" name="post_date" id="new-post-date">
-
-    <label>Summary:</label>
-    <textarea name="summary" id="new-post-summary"></textarea>
-
-    <label>Body:</label>
-    <textarea name="body" id="new-post-body"></textarea>
-
-    <button class="submit">Submit</button>
-
-  </form>
-  <div id="post-status">
-    <div id="post-loading">
-      <h2>Loading . . .</h2>
-    </div>
-    <div id="post-success">
-      <h2>Posted successfully.</h2>
-      <a href="/">See Posts</a>
-    </div>
-    <div id="post-failure">
-      <h2>Post failed.</h2>
-      <button class="close-status-modal" type="button">Close</button>
-    </div>
-  </div>
-
+<div id="new-post" class="post-form-parent">
+  <button type="button" id="import-post-button">📥 Import Post</button>
+  {{> importForm }}
+  {{> postForm }}
+  {{> imageUpload }}
+  {{> postStatus }}
 </div>

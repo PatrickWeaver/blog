@@ -4,12 +4,16 @@
 
 body {
   font-family: arial, sans-serif;
-  margin: 1em 4%;
+  margin: 0;
   font-size: 130%;
 }
 
+#wrapper {
+  margin: 1em 4%;
+}
+
 #container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -38,6 +42,19 @@ button:hover, button:active {
 
 /* Layout */
 
+#user {
+  width: 100%;
+  text-align: right;
+  color: white;
+  background-color: black;
+  font-size: 60%;
+  padding: .25em;
+}
+
+#user a, #user a:hover, #user:active {
+  color: #8FBFFF;
+}
+
 #new-link {
   position: absolute;
   top: 0;
@@ -60,9 +77,17 @@ h2.post-title {
 }
 
 h4.date, span.permalink {
-  margin-top: .25em;
+  margin-top: .5em;
   margin-bottom: 1em;
   display: inline-block;
+}
+
+/* Image Captions */
+h6 {
+  text-align: center;
+  font-size: 90%;
+  margin-top: .5em;
+  margin-bottom: 1.5em;
 }
 
 span.permalink {
@@ -73,23 +98,59 @@ div.post-body {
   margin: .5em 0 2em;
 }
 
-.post-body p, .post-preview p, .post-body li {
+#site-header,
+.pagination,
+#new-post,
+#edit-post,
+#profile,
+#login,
+li.post,
+.post div.date,
+.post p,
+.post h1,
+.post h2,
+.post h3,
+.post h4,
+.post h5,
+.post h6,
+.post ul,
+.post li,
+hr,
+pre,
+#error,
+#post-admin,
+.post-preview,
+.permalink {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-body p, p.preview , .post-body li {
   line-height: 150%;
   font-size: 110%;
   font-family: Georgia, serif;
 }
 
 .post-body p {
-  margin: 0 0 1em;
+  margin: 0 auto 1em;
+  max-width: 800px;
 }
 
 .post-body img {
-  max-width: 700px;
-  margin: .5em 50px;
+  display: block;
+  max-width: 500px;
+  margin: .5em auto;
+  vertical-align: middle;
+  padding: .25em;
 }
 
 .post-preview p {
   margin: 0;
+}
+
+.summary {
+  font-family: arial, sans-serif;
 }
 
 /* Image caption */
@@ -108,7 +169,7 @@ p.read-more {
 /* Posts */
 /* Pagination */
 
-ul#posts, ul#pagination {
+ul#posts, ul.pagination {
   list-style: none;
   padding: 0;
 }
@@ -117,8 +178,68 @@ ul#posts, ul#pagination {
   margin: 1.5em 0;
 }
 
-ul#pagination > li.page-number {
+ul.pagination > li.page-number {
   display: inline;
+}
+
+/* Post Admin */
+
+#post-admin {
+}
+
+#post-admin h3 {
+  margin: 0;
+}
+
+#post-admin ul {
+  list-style: none;
+  margin: 1em 0;
+  padding: 0;
+}
+
+#post-admin li {
+  padding: 0 1em 0 0;
+  display: inline-block;
+}
+
+#post-admin button {
+  font-size: 100%;
+  cursor: pointer;
+  margin-right: .25em;
+}
+
+#post-admin button.delete {
+  border: 1px solid red;
+  background-color: rgba(255, 255, 255, .0);
+  color: red;
+}
+
+#post-admin button.cancel {
+  background-color: #CCC;
+}
+
+#post-admin button.delete:hover {
+  background-color: rgba(255, 200, 200, .5);
+  color: black;
+  border: 1px solid black;
+}
+
+#post-admin button.cancel:hover {
+  background-color: white;
+}
+
+#post-admin #are-you-sure-delete {
+  border: 2px solid #999;
+  padding: .5em;
+  display: none;
+}
+
+#post-admin #are-you-sure-delete h2 {
+  margin: 0 0 .25em;
+}
+
+#post-admin #are-you-sure-delete h5 {
+  margin: 0 0 1em;
 }
 
 
@@ -128,86 +249,88 @@ ul#pagination > li.page-number {
   display: none;
 }
 
-#new-post label {
+#post-form label, #import-post-form label {
   display: block;
   margin-top: 1em;
   font-size: 115%;
 }
 
-#new-post input, #new-post textarea {
+#post-form input, #post-form textarea {
   display: block;
   margin: 0 0 .5em 0;
   width: 100%;
   padding: .25em .25em;
 }
-#new-post input#new-post-title {
+#post-form input#post-title {
   font-weight: bold;
 }
 
-#new-post input#new-post-slug {
+#post-form input#post-slug {
   font-family: "Lucida Console", Monaco, monospace;
 }
 
-#new-post input {
+#post-form input, #import-post-form input {
   font-size: 130%;
   line-height: 130%;
 }
 
-#new-post #slug-fill {
+#post-form #slug-fill {
   display: none;
   border: 1px solid red;
   padding: .5em;
 }
 
-#new-post #slug-fill h6 {
+#post-form #slug-fill h6 {
   margin: 0;
   display: inline-block;
 }
 
-#new-post #slug-fill h5 {
+#post-form #slug-fill h5 {
   margin: 0;
 }
 
-#new-post #slug-fill ul {
+#post-form #slug-fill ul {
   display: inline-block;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-#new-post #slug-fill ul li {
+#post-form #slug-fill ul li {
   padding: .25em;
   text-transform:capitalize;
   display: inline-block;
 }
 
-#new-post #slug-fill ul li button {
+#post-form #slug-fill ul li button {
   font-size: 100%;
-  padding: .1em .25em;
+  padding: .5em .5em;
 }
 
-
-
-#new-post textarea, #new-post button.submit {
+#post-form textarea, #post-form button.submit {
   font-size: 150%;
   line-height: 150%;
 }
 
-#new-post textarea#new-post-summary {
+#post-form textarea#post-summary {
   font-family: Ariel, sans-serif;
 }
 
-#new-post textarea#new-post-body {
+#post-form textarea#post-body {
   height: 14em;
   font-family: georgia, serif;
 }
 
-#new-post button.submit {
+#post-form button.submit {
   margin: .5em 0 1em;
   cursor: pointer;
 }
 
-#new-post #post-status {
+#original-slug {
+  display: none;
+}
+
+#post-status {
   display: none;
   position: fixed;
   top: 0;
@@ -217,7 +340,7 @@ ul#pagination > li.page-number {
   background-color: rgba(233, 233, 233, 0.8);
 }
 
-#new-post #post-status > div{
+#post-status > div{
   display: none;
   position: fixed;
   top: 0;
@@ -227,6 +350,64 @@ ul#pagination > li.page-number {
   background-color: #FFF;
   text-align: center;
   padding: 1em;
+}
+
+#import-post-button, #submit-import-post {
+  padding: .5em;
+  margin: 1em 0 1em;
+  cursor: pointer;
+  font-size: 70%;
+}
+
+#image-upload-form, #uploaded-image {
+  border: 1px solid #888;
+  padding: 1em;
+  margin: 0 0 1em 0;
+}
+
+#image-upload-form label, #uploaded-image label {
+  width: 100%;
+  display: block;
+}
+
+#image-upload-form input {
+  padding: .25em 0;
+  cursor: pointer;
+  font-size: 100%;
+}
+
+#image-upload-form button {
+  font-size: 125%;
+  padding: .25em;
+  cursor: pointer;
+}
+
+#uploaded-image {
+  display: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#uploaded-image-url {
+  width: 80%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#uploaded-image-url input {
+  width: 100%;
+  font-size: 150%;
+  margin: .25em 0;
+}
+
+#uploaded-image-preview {
+  width: 20%;
+  height: auto;
+  display: inline-block;
+}
+
+#uploaded-image-preview img {
+  width: 100%;
 }
 
 /* Login */

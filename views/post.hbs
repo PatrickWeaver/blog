@@ -1,7 +1,29 @@
 <div class="post">
-  <h2 class="post-title"><a href="/post/{{ post.slug }}">{{ post.title }}</a></h2>
-  <h4 class="date">{{ post.formatted_date }}</h4>
+  {{# if admin }}
+    <div id="post-admin">
+      <h3>Post Admin:</h3>
+      <ul>
+        <li><a href="/post/{{ post.slug }}/edit/">📝 Edit Post</a></li>
+        <li><button id="activate-delete" class="delete">⛔️ Delete Post</button></li>
+      </ul>
+      <div id="are-you-sure-delete">
+        <h2>Are you sure?</h2>
+        <h5>This post will be deleted permanently.</h5>
+        <button id="cancel-delete" class="cancel">Cancel</button><button id="delete-post" class="delete">Delete</button>
+      </div>
+    </div>
+  {{/ if }}
+  <h2 class="post-title"><a href="/post/{{ post.slug }}/">{{ post.title }}</a></h2>
+  <div class="date"><h4 class="date">{{ post.formatted_date }}</h4></div>
+  {{# if post.summary }}
+    <div class="summary">
+      {{{ post.summary }}}
+    </div>
+    <br>
+  {{/ if }}
   <div class="post-body">
     {{{ post.html_body }}}
   </div>
+  {{> postStatus }}
+  <div id="original-slug">{{ post.slug }}</div>
 </div>
