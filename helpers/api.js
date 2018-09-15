@@ -3,7 +3,6 @@ const rp = require("request-promise");
 function apiRequest({url, method = "GET", query = "", body = false, formData = false}) {
   console.log("Url: " + url);
   console.log("Method: " + method);
-  console.log("UUID: " + formData.uuid);
 
   var options = {
     url: url,
